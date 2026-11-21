@@ -4,7 +4,7 @@
 <title>NEBULA — Living Galaxies</title>
 <meta name="description" content="NEBULA: a living 3D galaxy built by its community. Find your home on AURELIA, the first inhabited planet.">
 <meta name="theme-color" content="#06101f">
-<meta property="og:title" content="NEBULA · Your home among the stars"><meta property="og:description" content="Explore AURELIA, a living 3D galaxy. Find your home by your social media username."><meta property="og:image" content="/assets/aurelia-1.webp">
+<meta property="og:title" content="NEBULA · Your home among the stars"><meta property="og:description" content="Explore AURELIA, a living 3D galaxy. Find your home by your social media username."><meta property="og:image" content="/assets/neo-city.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script>if(/^\/house\//.test(location.pathname))document.documentElement.classList.add('deeplink');</script>
@@ -47,7 +47,7 @@ button.secondary{background:rgba(255,255,255,.07);border-color:rgba(190,240,255,
 #welcome .logo{font-size:clamp(30px,6vw,52px);letter-spacing:.32em;padding-left:.32em}
 #welcome h2{font:600 clamp(18px,2.6vw,26px) var(--body);margin:8px 0 6px;color:#fff}
 #welcome p.lead{max-width:600px;margin:0 auto;color:var(--muted);font-size:14.5px;line-height:1.6}
-.districts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0 20px;text-align:left}
+.districts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0 20px;text-align:left}
 .district{position:relative;overflow:hidden;border-radius:16px;aspect-ratio:4/3;border:1px solid rgba(190,240,255,.25);background:linear-gradient(140deg,#123a55,#2a2560 60%,#0b1a33);box-shadow:0 10px 30px rgba(0,0,0,.35)}
 .district img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}.district:hover img{transform:scale(1.07)}
 .district.noimg img{display:none}
@@ -64,16 +64,17 @@ button.secondary{background:rgba(255,255,255,.07);border-color:rgba(190,240,255,
 }
 @media(max-height:560px){.districts{display:none}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+.video #welcome,.video .panel,.video #toast,.video #world::after{display:none!important}
 </style></head><body>
 <div id="world"></div>
-<header id="brand" class="panel"><div class="logo">NEBULA</div><div class="tag">Your home among the stars · <span class="eyebrow">AURELIA</span></div></header>
+<header id="brand" class="panel"><div class="logo">NEBULA</div><div class="tag">Your home among the stars · <span class="eyebrow">NEO CITY · AURELIA</span></div></header>
 <section id="stats" class="panel" aria-label="AURELIA population"><div class="stat"><b id="members">0</b><small>Residents</small></div><div class="stat"><b id="homes">0</b><small>Homes</small></div><div class="stat"><b>10K</b><small>Goal</small></div></section>
 <section id="tools" class="panel">
 <h2 class="ttl"><label for="search">Find your home</label></h2>
 <form id="searchForm" class="searchbar" autocomplete="off"><span class="at" aria-hidden="true">@</span><input id="search" maxlength="60" placeholder="your social media username" aria-label="Your social media username" spellcheck="false" autocapitalize="off" enterkeyhint="search"><button id="find" type="submit">Find</button></form>
 <div id="searchMsg" role="status" aria-live="polite"></div>
 <div id="suggestions"></div>
-<div class="note">No sign-up, no password. Explore AURELIA freely.</div>
+<div class="note">No sign-up, no password. Explore NEO CITY freely.</div>
 <div class="row"><button class="secondary" id="pause" type="button">Pause time</button><button class="secondary" id="reset" type="button">Reset camera</button><button class="secondary" id="about" type="button">About NEBULA</button></div></section>
 <section id="card" class="panel" hidden aria-live="polite">
 <button id="cardClose" class="close" type="button" aria-label="Close">✕</button>
@@ -88,13 +89,14 @@ button.secondary{background:rgba(255,255,255,.07);border-color:rgba(190,240,255,
   <div class="eyebrow">Living Galaxies · Sector 01</div>
   <div class="logo" id="wTitle">NEBULA</div>
   <h2>Your home among the stars</h2>
-  <p class="lead">Welcome to AURELIA, the first inhabited planet of the NEBULA galaxy. Luxury glass homes, floating islands and endless waterfalls, built one resident at a time by our community.</p>
+  <p class="lead">Welcome to NEO CITY, the twilight capital of AURELIA, first inhabited planet of the NEBULA galaxy. Glass skyscrapers, a glowing bay and sky-pool villas, built one resident at a time by our community.</p>
   <div class="districts">
-   <figure class="district" style="margin:0"><img src="/assets/aurelia-1.webp" alt="Crystal Bay: white glass villas on a turquoise lagoon" loading="lazy" decoding="async" width="800" height="600" onerror="this.parentNode.classList.add('noimg')"><figcaption><b>CRYSTAL BAY</b><span>Glass villas on turquoise water</span></figcaption></figure>
-   <figure class="district" style="margin:0"><img src="/assets/aurelia-2.webp" alt="Neo City: a neon futuristic skyline at night" loading="lazy" decoding="async" width="800" height="600" onerror="this.parentNode.classList.add('noimg')"><figcaption><b>NEO CITY</b><span>A neon metropolis that never sleeps</span></figcaption></figure>
-   <figure class="district" style="margin:0"><img src="/assets/aurelia-3.webp" alt="Sky District: glass homes on floating islands among clouds" loading="lazy" decoding="async" width="800" height="600" onerror="this.parentNode.classList.add('noimg')"><figcaption><b>SKY DISTRICT</b><span>Residences above the clouds</span></figcaption></figure>
+   <figure class="district" style="margin:0"><img src="/assets/neo-city.webp" alt="NEO CITY: white glass skyscrapers on a twilight bay under a ringed planet" loading="lazy" decoding="async" width="720" height="540" onerror="this.parentNode.classList.add('noimg')"><figcaption><b>NEO CITY</b><span>The skyline city · start here</span></figcaption></figure>
+   <figure class="district" style="margin:0"><img src="/assets/eden.webp" alt="EDEN: a giant tree-tower with a waterfall among green glass towers" loading="lazy" decoding="async" width="720" height="540" onerror="this.parentNode.classList.add('noimg')"><figcaption><b>EDEN</b><span>The garden city</span></figcaption></figure>
+   <figure class="district" style="margin:0"><img src="/assets/crystal-bay.webp" alt="Crystal Bay: crystal spires and white villas on a turquoise lagoon" loading="lazy" decoding="async" width="720" height="540" onerror="this.parentNode.classList.add('noimg')"><figcaption><b>CRYSTAL BAY</b><span>Villas on turquoise water</span></figcaption></figure>
+   <figure class="district" style="margin:0"><img src="/assets/sky-district.webp" alt="Sky District: floating islands and cloud-top villas" loading="lazy" decoding="async" width="720" height="540" onerror="this.parentNode.classList.add('noimg')"><figcaption><b>SKY DISTRICT</b><span>Residences above the clouds</span></figcaption></figure>
   </div>
-  <div class="cta"><button id="explore" type="button">Explore AURELIA</button><button id="findMine" class="secondary" type="button">Find my home</button></div>
+  <div class="cta"><button id="explore" type="button">Explore NEO CITY</button><button id="findMine" class="secondary" type="button">Find my home</button></div>
   <div class="how">Want a home? Comment <b>JOIN NEBULA</b> on our posts and we'll build yours.</div>
  </div>
 </div>
@@ -112,123 +114,268 @@ if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY || SUPABASE_URL.includes('YOUR_')
   alert('Add your Supabase Project URL and Publishable key to supabase-config.js first.');
 }
 const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } });
-const scene=new THREE.Scene();scene.background=new THREE.Color(0x7895b5);scene.fog=new THREE.FogExp2(0x829cb9,.0034);
-const camera=new THREE.PerspectiveCamera(48,innerWidth/innerHeight,.1,1400);camera.position.set(44,34,55);
-const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;document.querySelector('#world').appendChild(renderer.domElement);
-const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.055;controls.minDistance=4;controls.maxDistance=250;controls.maxPolarAngle=Math.PI*.49;controls.target.set(0,5,0);
-scene.add(new THREE.HemisphereLight(0xd9f2ff,0x263047,2));
-const sun=new THREE.DirectionalLight(0xffe2bd,3);sun.position.set(-60,80,40);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);scene.add(sun);
-const fill=new THREE.PointLight(0x55cfff,100,180);fill.position.set(24,35,-25);scene.add(fill);
-const mat=(c,r=.75,m=0)=>new THREE.MeshStandardMaterial({color:c,roughness:r,metalness:m});
-const land=mat(0x486c69),landTop=mat(0x6e9a7c),stone=mat(0x627987),white=mat(0xe8f0f0,.3,.25),glass=new THREE.MeshPhysicalMaterial({color:0x91dff1,metalness:.18,roughness:.12,transparent:true,opacity:.48,transmission:.25}),gold=mat(0xc9ad72,.3,.55),water=new THREE.MeshStandardMaterial({color:0x35c9e6,emissive:0x087a9b,emissiveIntensity:.5,transparent:true,opacity:.78,roughness:.18}),neon=new THREE.MeshStandardMaterial({color:0x83eaff,emissive:0x1aaed8,emissiveIntensity:2});
-const planet=new THREE.Group();scene.add(planet);
-// Main island continent: broad sculpted platform with layered rocky underside.
-const base=new THREE.Mesh(new THREE.CylinderGeometry(25,20,7,48),land);base.position.y=-1.2;base.scale.z=.83;base.castShadow=true;base.receiveShadow=true;planet.add(base);
-const underside=new THREE.Mesh(new THREE.ConeGeometry(20,18,32),stone);underside.position.y=-13;base.scale.z=.83;underside.scale.z=.83;planet.add(underside);
-const surface=new THREE.Mesh(new THREE.CylinderGeometry(25.2,24.8,1.25,48),landTop);surface.position.y=2.35;surface.scale.z=.83;surface.receiveShadow=true;planet.add(surface);
-// Lagoon, river, waterfalls
-const lagoon=new THREE.Mesh(new THREE.CircleGeometry(7,48),water);lagoon.rotation.x=-Math.PI/2;lagoon.position.set(-5,3.02,4);planet.add(lagoon);
-const river=new THREE.Mesh(new THREE.BoxGeometry(3.2,.12,25),water);river.position.set(7,3.02,-3);river.rotation.y=.2;planet.add(river);
-for(let i=0;i<9;i++){let x=-19+i*4.7;let f=new THREE.Mesh(new THREE.PlaneGeometry(2.5,33),water);f.position.set(x,-15,-1);planet.add(f)}
-// District pads and elegant arrival plaza.
-const padMat=mat(0xd1c8ae,.6),pathMat=mat(0xc7d4cf,.7);
-for(let i=0;i<6;i++){let a=i*Math.PI/3,r=16,x=Math.cos(a)*r,z=Math.sin(a)*r*.78;let p=new THREE.Mesh(new THREE.CylinderGeometry(5.2,5.5,.4,24),padMat);p.position.set(x,3.1,z);planet.add(p);let ring=new THREE.Mesh(new THREE.TorusGeometry(5.1,.09,8,48),neon);ring.rotation.x=Math.PI/2;ring.position.set(x,3.4,z);planet.add(ring)}
-const plaza=new THREE.Mesh(new THREE.CylinderGeometry(5,5,.35,48),white);plaza.position.set(0,3.2,0);planet.add(plaza);
-const obelisk=new THREE.Mesh(new THREE.OctahedronGeometry(2.1),neon);obelisk.position.set(0,7,0);obelisk.scale.y=2;planet.add(obelisk);
-// Landmark towers: glass/white luxury architecture.
-function tower(x,z,h=13,r=1.2){let stem=new THREE.Mesh(new THREE.CylinderGeometry(r*.8,r,h,12),white);stem.position.set(x,3.5+h/2,z);stem.castShadow=true;planet.add(stem);let cap=new THREE.Mesh(new THREE.SphereGeometry(r*1.45,16,10),glass);cap.position.set(x,3.5+h,z);planet.add(cap);let halo=new THREE.Mesh(new THREE.TorusGeometry(r*1.6,.08,8,32),gold);halo.position.set(x,3.5+h,z);halo.rotation.x=Math.PI/2;planet.add(halo)}
-tower(-9,-12,18,1.4);tower(10,-14,23,1.5);tower(17,7,15,1.1);tower(-18,7,14,1.2);
-// Waterfall cliffs and elevated garden islands around AURELIA.
-const islands=[];
-function floatingIsland(x,y,z,s){let g=new THREE.Group();g.position.set(x,y,z);scene.add(g);let b=new THREE.Mesh(new THREE.CylinderGeometry(s,s*.65,3,12),stone);b.position.y=0;g.add(b);let top=new THREE.Mesh(new THREE.CylinderGeometry(s*1.02,s,.45,12),landTop);top.position.y=1.7;g.add(top);let fall=new THREE.Mesh(new THREE.PlaneGeometry(s*.5,12+s),water);fall.position.set(-s*.3,-6,0);g.add(fall);islands.push(g);return g}
-floatingIsland(-34,12,-24,8);floatingIsland(34,15,-28,9);floatingIsland(38,9,20,10);floatingIsland(-35,13,26,9);floatingIsland(0,23,-49,7);
-function bridge(a,b){let p=new THREE.Vector3(...a),q=new THREE.Vector3(...b),m=p.clone().add(q).multiplyScalar(.5),d=p.distanceTo(q);let deck=new THREE.Mesh(new THREE.BoxGeometry(2,.28,d),white);deck.position.copy(m);deck.position.y+=1;deck.lookAt(q);deck.rotateY(Math.PI);scene.add(deck)}
-bridge([-18,3,-10],[-34,12,-24]);bridge([18,3,-10],[34,15,-28]);bridge([19,3,10],[38,9,20]);bridge([-18,3,12],[-35,13,26]);
-// Ringed planet in the sky.
-const orb=new THREE.Group();scene.add(orb);const sphere=new THREE.Mesh(new THREE.SphereGeometry(8,40,32),mat(0x8a9dc4,.8));orb.add(sphere);const ring=new THREE.Mesh(new THREE.RingGeometry(10,15,96),new THREE.MeshStandardMaterial({color:0xd5c6a4,side:THREE.DoubleSide,transparent:true,opacity:.72,roughness:.6}));ring.rotation.x=Math.PI/2.45;orb.add(ring);orb.position.set(-62,44,-105);
-// Distant planets and nebula clouds.
-for(let i=0;i<4;i++){let p=new THREE.Mesh(new THREE.SphereGeometry(2+i*.8,24,18),mat([0x7f8ebd,0x9873a9,0x5e9d9c,0xc08a69][i]));p.position.set(75+i*32,25+i*7,-90-i*20);scene.add(p)}
-const starGeo=new THREE.BufferGeometry(),coords=[];for(let i=0;i<1600;i++)coords.push((Math.random()-.5)*900,Math.random()*380-80,(Math.random()-.5)*900);starGeo.setAttribute('position',new THREE.Float32BufferAttribute(coords,3));const stars=new THREE.Points(starGeo,new THREE.PointsMaterial({color:0xdff7ff,size:.65,transparent:true,opacity:.9}));scene.add(stars);
-// Luxury resident homes: shared geometry with individually varied finishes, instanced for scale.
-const MAX=10000;
-// ---- Luxury villa: shared geometries/materials (created once, reused by every home) ----
-const VILLA={
-  geo:{
-    plinth:new THREE.BoxGeometry(2.9,.14,2.7),
-    low:new THREE.BoxGeometry(2.1,.82,1.55),
-    lowGlass:new THREE.BoxGeometry(1.7,.6,.04),
-    sideGlass:new THREE.BoxGeometry(.04,.6,1.1),
-    glow:new THREE.BoxGeometry(1.6,.5,.02),
-    lowRoof:new THREE.BoxGeometry(2.35,.08,1.8),
-    up:new THREE.BoxGeometry(1.55,.66,1.25),
-    upGlass:new THREE.BoxGeometry(1.35,.46,.04),
-    upGlow:new THREE.BoxGeometry(1.25,.38,.02),
-    upRoof:new THREE.BoxGeometry(1.95,.08,1.55),
-    trimX:new THREE.BoxGeometry(1,.025,.025),
-    post:new THREE.CylinderGeometry(.025,.025,1,8),
-    pool:new THREE.BoxGeometry(1.15,.05,.62),
-    poolRim:new THREE.BoxGeometry(1.27,.07,.74),
-    rail:new THREE.BoxGeometry(1,.16,.015)
-  },
-  mat:{
-    metal:new THREE.MeshStandardMaterial({color:0xc9d3da,roughness:.25,metalness:.9}),
-    deck:new THREE.MeshStandardMaterial({color:0xe9e4da,roughness:.55,metalness:.05}),
-    glass:new THREE.MeshPhysicalMaterial({color:0x9ff3f0,roughness:.06,metalness:.1,transparent:true,opacity:.42,transmission:.35,ior:1.45,thickness:.05,depthWrite:false}),
-    glow:new THREE.MeshStandardMaterial({color:0xffd9a3,emissive:0xffb766,emissiveIntensity:1.35,roughness:.8}),
-    pool:new THREE.MeshStandardMaterial({color:0x3fe0ea,emissive:0x0aa6c2,emissiveIntensity:.7,roughness:.1,metalness:.1,transparent:true,opacity:.9}),
-    railGlass:new THREE.MeshPhysicalMaterial({color:0xbff7ff,roughness:.05,transparent:true,opacity:.3,depthWrite:false})
-  },
-  white:new Map()
+// ---- Deterministic helpers (video mode needs repeatable worlds) ----
+const params=new URLSearchParams(location.search);const VIDEO=params.has('video');
+function rng(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const R=rng(20261121);const rr=(a,b)=>a+R()*(b-a);
+function hashStr(s){let h=2166136261;for(const c of String(s||''))h=Math.imul(h^c.codePointAt(0),16777619);return h>>>0}
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x7895b5);scene.fog=new THREE.FogExp2(0x9a6aa8,.0021);
+// Named camera viewpoints: used by Reset camera now and by the future ?video=1 camera paths.
+const EDEN_O={x:-330,z:-40};// EDEN sits as a secondary floating district west of NEO CITY
+const CAMERA_POIS={
+  neoOverview:{pos:[24,34,128],target:[0,34,-60]},
+  neoAerial:{pos:[10,230,60],target:[0,0,-20]},
+  neoOverviewTall:{pos:[34,46,196],target:[0,46,-60]},// portrait screens / 720x1280 video
+  neoRiver:{pos:[-6,9,110],target:[4,24,-50]},
+  neoHouse:{pos:[30,9,22],target:[44,3,22]},
+  edenOverview:{pos:[EDEN_O.x,46,EDEN_O.z+104],target:[EDEN_O.x,13,EDEN_O.z]},
+  crystalBay:{pos:[230,34,30],target:[190,10,-40]}
 };
-function villaWhite(color){const key=(/^#[0-9a-f]{6}$/i.test(color||'')?color:'#ffffff').toLowerCase();
-  if(!VILLA.white.has(key))VILLA.white.set(key,new THREE.MeshStandardMaterial({color:new THREE.Color(key).lerp(new THREE.Color(0xffffff),.15),roughness:.28,metalness:.08}));return VILLA.white.get(key)}
-function createVilla(color='#FFFFFF',model='luxury_white'){
-  // Only 'luxury_white' exists today; other models fall back to it.
-  const G=VILLA.geo,M=VILLA.mat,W=villaWhite(color),g=new THREE.Group();g.userData.model=model;
-  const add=(geo,mat,x,y,z,sx=1,sy=1,sz=1,shadow=false)=>{const m=new THREE.Mesh(geo,mat);m.position.set(x,y,z);m.scale.set(sx,sy,sz);if(shadow){m.castShadow=true;m.receiveShadow=true}g.add(m);return m};
-  // Base plinth + deck (front = +z)
-  add(G.plinth,M.deck,0,.07,.2,1,1,1,true);
-  // Ground floor: white volume, full-height glass front with warm interior glow
-  add(G.low,W,-.25,.55,-.15,1,1,1,true);
-  add(G.glow,M.glow,-.25,.53,.6);
-  add(G.lowGlass,M.glass,-.25,.53,.63);
-  add(G.sideGlass,M.glass,.81,.53,-.1);
-  add(G.lowRoof,W,-.2,1.0,-.1,1,1,1,true);
-  add(G.trimX,M.metal,-.2,.95,.8,2.35);
-  // Upper floor: offset & cantilevered over the terrace
-  add(G.up,W,.45,1.37,-.3,1,1,1,true);
-  add(G.upGlow,M.glow,.45,1.37,.33);
-  add(G.upGlass,M.glass,.45,1.37,.36);
-  add(G.upRoof,W,.5,1.74,-.22,1,1,1,true);
-  add(G.trimX,M.metal,.5,1.69,.56,1.95);
-  // Slim metal posts under the cantilever
-  add(G.post,M.metal,1.38,.57,.5,1,.86,1);add(G.post,M.metal,1.38,.57,-.9,1,.86,1);
-  // Terrace glass railing on the lower roof
-  add(G.rail,M.railGlass,-.75,1.12,.72,.95);
-  // Infinity pool on the front deck
-  add(G.poolRim,M.deck,-.55,.16,1.12);add(G.pool,M.pool,-.55,.19,1.12);
-  return g;
-}
+const startPose=()=>innerWidth/innerHeight<.8?CAMERA_POIS.neoOverviewTall:CAMERA_POIS.neoOverview;
+const camera=new THREE.PerspectiveCamera(48,innerWidth/innerHeight,.1,2200);camera.position.set(...startPose().pos);
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:VIDEO});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;document.querySelector('#world').appendChild(renderer.domElement);
+const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.055;controls.minDistance=4;controls.maxDistance=420;controls.maxPolarAngle=Math.PI*.49;controls.target.set(...startPose().target);
+scene.add(new THREE.HemisphereLight(0xcdb8ff,0x2a2450,1.6));
+const sun=new THREE.DirectionalLight(0xffc2c8,2.4);sun.position.set(-120,70,-60);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-85,right:85,top:85,bottom:-85,near:1,far:320});scene.add(sun);
+const fill=new THREE.PointLight(0x55e6ff,140,160);fill.position.set(0,60,-40);scene.add(fill);
+const mat=(c,r=.75,m=0)=>new THREE.MeshStandardMaterial({color:c,roughness:r,metalness:m});
+const stone=mat(0x627987),white=mat(0xeef3f2,.3,.2),glass=new THREE.MeshPhysicalMaterial({color:0x9fe6f2,metalness:.25,roughness:.1,transparent:true,opacity:.55,transmission:.2}),gold=mat(0xc9ad72,.3,.55),water=new THREE.MeshStandardMaterial({color:0x35d3e6,emissive:0x087a9b,emissiveIntensity:.55,transparent:true,opacity:.82,roughness:.12}),neon=new THREE.MeshStandardMaterial({color:0x83eaff,emissive:0x1aaed8,emissiveIntensity:2});
+const grass=mat(0x5d9a5c,.9),grassDeep=mat(0x4a8452,.9),pathMat=mat(0xe9ece6,.6),leaf=mat(0x4f9b4b,.8),leafLight=mat(0x7cbf5e,.8);
+// Scrolling streak texture for waterfalls (deterministic: offset is driven by world time).
+const fallTex=(()=>{const c=document.createElement('canvas');c.width=64;c.height=256;const g=c.getContext('2d');g.fillStyle='#7fe9f5';g.fillRect(0,0,64,256);for(let i=0;i<70;i++){g.fillStyle='rgba(255,255,255,'+rr(.15,.6).toFixed(2)+')';g.fillRect(rr(0,64),rr(0,256),rr(1,3),rr(20,90))}const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.colorSpace=THREE.SRGBColorSpace;return t})();
+const fallMat=new THREE.MeshStandardMaterial({map:fallTex,color:0xffffff,emissive:0x0b8fb0,emissiveIntensity:.6,transparent:true,opacity:.78,side:THREE.DoubleSide,roughness:.2,depthWrite:false});
+const add=(geo,m,x=0,y=0,z=0,parent=scene)=>{const o=new THREE.Mesh(geo,m);o.position.set(x,y,z);parent.add(o);return o};
+const polar=(a,r)=>[Math.cos(a)*r,Math.sin(a)*r];
+// ======================= NEO CITY: start district (dusk metropolis on a calm bay) =======================
+// Land plates (top surface y=1): downtown, east waterfront terrace (residential), west park, small islet.
+const NEO={D:{x:-5,z:-75,r:58},T:{x:72,z:22,r:40},P:{x:-78,z:25,r:34},I:{x:12,z:44,r:9}};
+// Sky: gradient dome + matching environment map so glass/water reflect the dusk colours.
+const skyTex=(()=>{const c=document.createElement('canvas');c.width=16;c.height=512;const g=c.getContext('2d');const gr=g.createLinearGradient(0,0,0,512);
+  [[0,'#0d0a2a'],[.28,'#2a1d5e'],[.42,'#5a3a92'],[.49,'#c46fae'],[.53,'#f2a6a2'],[.58,'#7d4f9c'],[1,'#120e2c']].forEach(([o,c])=>gr.addColorStop(o,c));g.fillStyle=gr;g.fillRect(0,0,16,512);
+  const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.mapping=THREE.EquirectangularReflectionMapping;return t})();
+const skyMat=new THREE.MeshBasicMaterial({map:skyTex,side:THREE.BackSide,fog:false,depthWrite:false});
+const sky=new THREE.Mesh(new THREE.SphereGeometry(950,48,24),skyMat);sky.renderOrder=-10;scene.add(sky);scene.background=null;
+{const pm=new THREE.PMREMGenerator(renderer);scene.environment=pm.fromEquirectangular(skyTex).texture;pm.dispose()}
+// Bay water: glossy, reflects the sky environment.
+const bay=new THREE.Mesh(new THREE.CircleGeometry(760,96),new THREE.MeshStandardMaterial({color:0x6a5aa8,emissive:0x1d1446,emissiveIntensity:.6,metalness:.55,roughness:.22,envMapIntensity:1.6}));bay.rotation.x=-Math.PI/2;bay.position.y=-.05;scene.add(bay);
+// Shared window texture: dark glass with cyan/violet lit bands (used as map + emissiveMap on all towers).
+const winTex=(()=>{const c=document.createElement('canvas');c.width=128;c.height=256;const g=c.getContext('2d');g.fillStyle='#d9e4f2';g.fillRect(0,0,128,256);
+  for(let y=4;y<256;y+=8)for(let x=3;x<128;x+=10){const lit=R();g.fillStyle=lit>.55?(lit>.85?'#b48cff':'#8ff4ff'):'#2b3554';g.fillRect(x,y,7,4)}
+  const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.colorSpace=THREE.SRGBColorSpace;return t})();
+const towerMat=new THREE.MeshStandardMaterial({map:winTex,emissiveMap:winTex,emissive:0xffffff,emissiveIntensity:.35,metalness:.55,roughness:.22});
+const winTexDark=(()=>{const c=document.createElement('canvas');c.width=128;c.height=256;const g=c.getContext('2d');g.fillStyle='#3a3f6e';g.fillRect(0,0,128,256);
+  for(let y=4;y<256;y+=8)for(let x=3;x<128;x+=10){const lit=R();g.fillStyle=lit>.5?(lit>.82?'#c49cff':'#9ff6ff'):'#262a4a';g.fillRect(x,y,7,4)}
+  for(let x=0;x<128;x+=32){g.fillStyle='#e9eef8';g.fillRect(x,0,3,256)}
+  const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.colorSpace=THREE.SRGBColorSpace;return t})();
+const towerDark=new THREE.MeshStandardMaterial({map:winTexDark,emissiveMap:winTexDark,emissive:0xffffff,emissiveIntensity:.45,metalness:.6,roughness:.2});
+const finMat=new THREE.MeshStandardMaterial({color:0xf4f6fb,metalness:.6,roughness:.2});
+const stripC=new THREE.MeshStandardMaterial({color:0x8ff4ff,emissive:0x35d8ff,emissiveIntensity:2.2}),stripV=new THREE.MeshStandardMaterial({color:0xc7a6ff,emissive:0x9b5cff,emissiveIntensity:2.2});
+const paving=mat(0xd8dbe6,.55,.15),poolMat=new THREE.MeshStandardMaterial({color:0x5ff2ff,emissive:0x16c7e6,emissiveIntensity:1.1,roughness:.08,metalness:.2});
+const neo=new THREE.Group();scene.add(neo);
+for(const [k,p] of Object.entries(NEO)){const top=add(new THREE.CylinderGeometry(p.r,p.r+2.5,3.2,72),k==='P'?grass:paving,p.x,-.6,p.z,neo);top.receiveShadow=true;
+  const edge=add(new THREE.TorusGeometry(p.r+.4,.16,6,120),k==='T'?stripV:stripC,p.x,1.02,p.z,neo);edge.rotation.x=Math.PI/2}
+// Hero skyscrapers (tapered, white fins, light strips, glowing crowns)
+const HERO=[[0,0,150,7.5],[-24,12,118,6],[22,-6,130,6.5],[-10,-30,102,5.5],[30,20,92,5],[-38,-10,86,5],[8,26,78,4.6],[42,-24,70,4.4]];
+const heroTowers=HERO.map(([dx,dz,h,r],i)=>{const x=NEO.D.x+dx,z=NEO.D.z+dz;
+  const prof=[];for(let j=0;j<=12;j++){const t=j/12;prof.push(new THREE.Vector2(r*(1-t*.62)*(1+.12*Math.sin(t*Math.PI)),t*h))}prof.push(new THREE.Vector2(0,h));
+  const geo=new THREE.LatheGeometry(prof,6+((i%3)*2));const uv=geo.attributes.uv;for(let k=0;k<uv.count;k++)uv.setXY(k,uv.getX(k)*4,uv.getY(k)*h/18);
+  const body=add(geo,towerMat,x,1,z,neo);body.castShadow=true;
+  add(new THREE.ConeGeometry(r*.38,h*.22,8),finMat,x,1+h+h*.11,z,neo);
+  for(let f=0;f<3;f++){const a=f/3*Math.PI*2+i;const fin=add(new THREE.BoxGeometry(.5,h*.92,r*.5),finMat,x+Math.cos(a)*r*.78,1+h*.46,z+Math.sin(a)*r*.78,neo);fin.rotation.y=-a;fin.scale.x=1;
+    const s=add(new THREE.BoxGeometry(.22,h*.88,.22),f%2?stripV:stripC,x+Math.cos(a+.5)*r*.8,1+h*.44,z+Math.sin(a+.5)*r*.8,neo)}
+  const crown=add(new THREE.TorusGeometry(r*.55,.25,6,40),i%2?stripV:stripC,x,1+h*.86,z,neo);crown.rotation.x=Math.PI/2;
+  return {x,z,h,r}});
+// Secondary + far skyline towers (instanced, one material)
+{const spots=[];for(let i=0;i<260&&spots.length<46;i++){const a=rr(0,6.28),d=rr(12,NEO.D.r-5),x=NEO.D.x+Math.cos(a)*d,z=NEO.D.z+Math.sin(a)*d;if(heroTowers.some(t=>Math.hypot(t.x-x,t.z-z)<t.r+5))continue;if(spots.some(s=>Math.hypot(s[0]-x,s[1]-z)<6))continue;spots.push([x,z,rr(14,50),rr(2,3.2)])}
+ for(let i=0;i<120;i++){const a=rr(Math.PI*1.08,Math.PI*1.92),d=rr(300,520);spots.push([Math.cos(a)*d,Math.sin(a)*d-40,rr(30,130),rr(5,9)])}
+ const box=new THREE.BoxGeometry(1,1,1);const uv=box.attributes.uv;for(let k=0;k<uv.count;k++)uv.setXY(k,uv.getX(k)*2,uv.getY(k)*5);
+ const im=new THREE.InstancedMesh(box,towerDark,spots.length);const m4=new THREE.Matrix4(),q=new THREE.Quaternion(),s=new THREE.Vector3(),p=new THREE.Vector3();
+ spots.forEach(([x,z,h,r],i)=>{q.setFromAxisAngle(new THREE.Vector3(0,1,0),R()*3);im.setMatrixAt(i,m4.compose(p.set(x,h/2+1,z),q,s.set(r*2,h,r*2)))});im.castShadow=true;neo.add(im);
+ }
+// Elevated glass walkways between towers + sweeping bridges over the bay
+const tubeGlass=new THREE.MeshPhysicalMaterial({color:0xcfe9ff,metalness:.2,roughness:.05,transparent:true,opacity:.45,depthWrite:false});
+function skyway(a,b,r=1.1,line=stripC){const curve=new THREE.CatmullRomCurve3(Array.isArray(a[0])?[new THREE.Vector3(...a[0]),new THREE.Vector3(...a[1]),new THREE.Vector3(...a[2])]:[new THREE.Vector3(...a),new THREE.Vector3(...b)]);
+  add(new THREE.TubeGeometry(curve,48,r,10,false),tubeGlass,0,0,0,neo);add(new THREE.TubeGeometry(curve,48,.12,5,false),line,0,-r*.75,0,neo)}
+[[0,1,46],[0,2,58],[1,5,38],[2,7,34],[0,3,30],[4,6,26]].forEach(([i,j,y])=>{const A=heroTowers[i],B=heroTowers[j];skyway([A.x,y,A.z],[B.x,y,B.z],1,j%2?stripV:stripC)});
+skyway([[NEO.P.x+NEO.P.r-2,2,NEO.P.z-1],[-6,16,24],[NEO.T.x-NEO.T.r+2,2,NEO.T.z]],null,1.8,stripV);// bay bridge west park -> waterfront
+skyway([[NEO.D.x-30,2,NEO.D.z+48],[-50,10,-14],[NEO.P.x+16,2,NEO.P.z-28]],null,1.4,stripC);// downtown -> park
+skyway([[NEO.D.x+40,2,NEO.D.z+40],[46,8,-16],[NEO.T.x-22,2,NEO.T.z-32]],null,1.4,stripC);// downtown -> waterfront
+// Fake light reflections on the bay below the downtown skyline
+{const refl=new THREE.PlaneGeometry(1,1).rotateX(-Math.PI/2);heroTowers.forEach((t,i)=>{if(t.z+t.r<NEO.D.z+NEO.D.r-25)return;const m=new THREE.Mesh(refl,new THREE.MeshBasicMaterial({color:i%2?0xb48cff:0x7ff0ff,transparent:true,opacity:.22,blending:THREE.AdditiveBlending,depthWrite:false}));m.scale.set(2.4,1,t.h*.55);m.position.set(t.x,.02,NEO.D.z+NEO.D.r+t.h*.27);neo.add(m)})}
+// Waterfront terraced villas with glowing sky-pools (landmarks, not resident homes)
+const villaWhite=new THREE.MeshStandardMaterial({color:0xf6f7fb,metalness:.15,roughness:.25});
+[.52,.66,.8,.94,1.08,1.22].forEach((f,i)=>{const a=Math.PI*f,cx=NEO.T.x+Math.cos(a)*(NEO.T.r-6),cz=NEO.T.z+Math.sin(a)*(NEO.T.r-6);const g=new THREE.Group();g.position.set(cx,1,cz);g.rotation.y=-a+Math.PI;neo.add(g);
+  [[6.2,0],[5,3.2],[3.8,6.2]].forEach(([r,y],k)=>{const slab=add(new THREE.CylinderGeometry(r,r*.96,.7,40),villaWhite,0,y+.35,0,g);slab.scale.z=.62;slab.castShadow=true;
+    const band=add(new THREE.CylinderGeometry(r*.82,r*.82,2.4,40,1,true),tubeGlass,-.5,y+1.9,0,g);band.scale.z=.5;
+    const glow=add(new THREE.CylinderGeometry(r*.78,r*.78,2.2,32),new THREE.MeshStandardMaterial({color:0xffd7a0,emissive:0xffb46a,emissiveIntensity:.9}),-.6,y+1.85,0,g);glow.scale.set(.96,1,.44);
+    const pool=add(new THREE.CylinderGeometry(r*.42,r*.42,.12,32),poolMat,r*.42,y+.76,0,g);pool.scale.z=.62});
+  const top=add(new THREE.CylinderGeometry(3.4,3.4,.5,36),villaWhite,0,9.1,0,g);top.scale.z=.62});
+// Islet with a glass dome in the bay
+{add(new THREE.SphereGeometry(6.5,32,16,0,Math.PI*2,0,Math.PI/2),tubeGlass,NEO.I.x,1,NEO.I.z,neo);add(new THREE.TorusGeometry(6.6,.2,6,48),stripC,NEO.I.x,1.1,NEO.I.z,neo).rotation.x=Math.PI/2}
+// Resident plots (fixed, deterministic): east waterfront terrace first, then the west park.
+const NEO_PLOTS=[];{const SP=7;const grid=(c,maxR,sortFn)=>{const out=[];for(let x=-maxR;x<=maxR;x+=SP)for(let z=-maxR;z<=maxR;z+=SP){if(Math.hypot(x,z)<=maxR)out.push({x:c.x+x,y:1.05,z:c.z+z})}return out.sort(sortFn)};
+  NEO_PLOTS.push(...grid(NEO.T,28,(a,b)=>a.x-b.x||a.z-b.z),...grid(NEO.P,23,(a,b)=>b.x-a.x||a.z-b.z))}
+// Greenery: trees in the park ring, along the waterfront and downtown plazas (instanced)
+function plantTrees(spots,parent){const trunks=new THREE.InstancedMesh(new THREE.CylinderGeometry(.16,.24,1,6),mat(0x6d5243),spots.length),crowns=new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1,1),mat(0xffffff,.85),spots.length);
+  const m4=new THREE.Matrix4(),q=new THREE.Quaternion(),s=new THREE.Vector3(),p=new THREE.Vector3(),pal=[0x3f8f5a,0x5aa86a,0x2f7a5a,0x6fbf7a,0x4c9c8a];
+  spots.forEach(([x,y,z,k],i)=>{trunks.setMatrixAt(i,m4.compose(p.set(x,y+k,z),q,s.set(k,2*k,k)));crowns.setMatrixAt(i,m4.compose(p.set(x,y+2.4*k,z),q,s.set(1.3*k,1.15*k,1.3*k)));crowns.setColorAt(i,new THREE.Color(pal[i%pal.length]))});
+  crowns.castShadow=true;parent.add(trunks,crowns)}
+{const t=[];for(let i=0;i<70;i++){const a=rr(0,6.28),d=rr(24.5,NEO.P.r-1.5);t.push([NEO.P.x+Math.cos(a)*d,1,NEO.P.z+Math.sin(a)*d,rr(.9,1.4)])}
+ for(let i=0;i<40;i++){const a=rr(-.6,1.6)*Math.PI,d=rr(NEO.T.r-3,NEO.T.r-1);t.push([NEO.T.x+Math.cos(a)*d,1,NEO.T.z+Math.sin(a)*d,rr(.8,1.2)])}
+ for(let i=0;i<60;i++){const a=rr(0,6.28),d=rr(8,NEO.D.r-2),x=NEO.D.x+Math.cos(a)*d,z=NEO.D.z+Math.sin(a)*d;if(heroTowers.some(h=>Math.hypot(h.x-x,h.z-z)<h.r+2.5))continue;t.push([x,1,z,rr(.6,1)])}
+ plantTrees(t,neo);}
+// Flying vehicles: sleek cars on elliptic sky-lanes + one large cruiser (motion driven by world time)
+const flyers=[];{const carGeo=new THREE.SphereGeometry(1,16,10),carMat=new THREE.MeshStandardMaterial({color:0xf2f5fa,roughness:.25,metalness:.3,emissive:0x2a2f55,emissiveIntensity:.4}),tailGeo=new THREE.BoxGeometry(.3,.12,1.6);
+ for(let i=0;i<20;i++){const g=new THREE.Group();const b=new THREE.Mesh(carGeo,carMat);b.scale.set(2.2,.55,1.05);g.add(b);const tl=new THREE.Mesh(tailGeo,i%2?stripV:stripC);tl.position.set(-2.1,0,0);tl.rotation.y=Math.PI/2;g.add(tl);scene.add(g);
+   flyers.push({g,cx:rr(-40,40),cz:rr(-90,30),rx:rr(40,110),rz:rr(30,80),h:rr(26,70),sp:rr(.035,.08)*(i%2?1:-1),ph:rr(0,6.3)})}
+ const cruiser=new THREE.Group();const hull=new THREE.Mesh(new THREE.SphereGeometry(9,32,12),new THREE.MeshStandardMaterial({color:0xe6ebf5,roughness:.3,metalness:.25,emissive:0x2a2f55,emissiveIntensity:.5}));hull.scale.y=.22;cruiser.add(hull);const ring=new THREE.Mesh(new THREE.TorusGeometry(8.6,.35,8,64),stripC);ring.rotation.x=Math.PI/2;cruiser.add(ring);const dome=new THREE.Mesh(new THREE.SphereGeometry(3.2,24,12,0,Math.PI*2,0,Math.PI/2),tubeGlass);dome.position.y=1;cruiser.add(dome);scene.add(cruiser);
+ flyers.push({g:cruiser,cx:20,cz:-20,rx:150,rz:60,h:62,sp:.02,ph:1.2,big:true})}
+
+// ======================= EDEN: the garden city (secondary district) =======================
+const eden=new THREE.Group();eden.position.set(EDEN_O.x,0,EDEN_O.z);scene.add(eden);const EDEN_R=70;
+{const top=add(new THREE.CylinderGeometry(EDEN_R,EDEN_R-6,6,96),grass,0,-3,0,eden);top.receiveShadow=true;
+ add(new THREE.ConeGeometry(EDEN_R-6,44,48),stone,0,-28,0,eden);
+ for(let i=0;i<18;i++){const a=i/18*Math.PI*2+.1,[x,z]=polar(a,EDEN_R-1.5);const f=add(new THREE.PlaneGeometry(rr(3,5),rr(28,40)),fallMat,x,-20,z,eden);f.rotation.y=-a+Math.PI/2}}
+// Ring canal, radial canals (diagonals) and white avenues (axes)
+const AVENUES=[0,Math.PI/2,Math.PI,Math.PI*1.5],CANALS=AVENUES.map(a=>a+Math.PI/4);
+{const ring=add(new THREE.RingGeometry(16,19.5,96),water,0,.06,0,eden);ring.rotation.x=-Math.PI/2;
+ add(new THREE.CylinderGeometry(15.2,15.2,.18,72),pathMat,0,.09,0,eden).receiveShadow=true;
+ CANALS.forEach(a=>{const c=add(new THREE.BoxGeometry(43,.1,3.4),water,...(()=>{const[x,z]=polar(a,41);return[x,.06,z]})(),eden);c.rotation.y=-a;
+   const[bx,bz]=polar(a,EDEN_R-2);const lip=add(new THREE.BoxGeometry(4,.3,3.8),white,bx,.15,bz,eden);lip.rotation.y=-a});
+ AVENUES.forEach(a=>{const[x,z]=polar(a,40);const p=add(new THREE.BoxGeometry(50,.14,4.2),pathMat,x,.08,z,eden);p.rotation.y=-a;p.receiveShadow=true;
+   const[bx,bz]=polar(a,17.7);const br=add(new THREE.BoxGeometry(5.5,.4,4.6),white,bx,.22,bz,eden);br.rotation.y=-a});
+ // cross paths over canals so the city reads as connected
+ [30,46].forEach(r=>CANALS.forEach(a=>{const[x,z]=polar(a,r);const b=add(new THREE.BoxGeometry(2.4,.35,5.2),white,x,.2,z,eden);b.rotation.y=-a}));}
+// Central tree-tower with waterfall + fountain pool
+let obelisk;
+{const prof=[[5.2,0],[4.4,3],[3.2,8],[2.4,14],[2.1,20],[2.6,26],[4.4,31],[7.6,35],[10.6,37.4],[11.4,38.6],[0,38.8]].map(([r,y])=>new THREE.Vector2(r,y));
+ const trunkMat=new THREE.MeshPhysicalMaterial({color:0xcfeef3,metalness:.35,roughness:.18,transparent:true,opacity:.9,clearcoat:.6});
+ const trunk=add(new THREE.LatheGeometry(prof,48),trunkMat,0,0,0,eden);trunk.castShadow=true;
+ // living vines spiralling up the trunk
+ for(let v=0;v<7;v++){const pts=[];for(let i=0;i<=24;i++){const y=i/24*36,ang=v/7*Math.PI*2+i*.32;const r=(y<14?4.6-y*.17:y<26?2.4+(y-14)*.02:2.8+(y-26)*.75)+.15;pts.push(new THREE.Vector3(Math.cos(ang)*r,y,Math.sin(ang)*r))}
+   add(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),80,.32,6,false),v%2?leaf:leafLight,0,0,0,eden)}
+ const canopy=new THREE.Group();canopy.position.y=39;eden.add(canopy);
+ for(let i=0;i<9;i++){const a=i/9*Math.PI*2,[x,z]=polar(a,i%2?7.5:5);const b=add(new THREE.SphereGeometry(rr(4,6.5),18,12),i%3?leaf:leafLight,x,rr(.5,2.5),z,canopy);b.scale.y=.5;b.castShadow=true}
+ add(new THREE.SphereGeometry(7,20,14),leafLight,0,2.8,0,canopy).scale.y=.55;
+ const rim=add(new THREE.TorusGeometry(11.2,.28,8,96),neon,0,38.4,0,eden);rim.rotation.x=Math.PI/2;
+ add(new THREE.CylinderGeometry(3.2,5.4,37,40,1,true),fallMat,0,19.6,0,eden);// waterfall veil inside the trunk
+ for(let i=0;i<6;i++){const a=i/6*Math.PI*2+.3,[x,z]=polar(a,9.6);const f=add(new THREE.PlaneGeometry(2.2,37),fallMat,x,19.6,z,eden);f.rotation.y=-a+Math.PI/2}
+ add(new THREE.CylinderGeometry(11,11,.5,64),water,0,.3,0,eden);
+ const lip=add(new THREE.TorusGeometry(11.1,.35,8,80),white,0,.5,0,eden);lip.rotation.x=Math.PI/2;
+ obelisk=add(new THREE.OctahedronGeometry(1.8),neon,0,47,0,eden);obelisk.scale.y=1.8;}
+// Glass pavilions (domes) and crystal orbs on the plaza
+{[[.35,27],[Math.PI-.35,27],[Math.PI*1.5+.38,30]].forEach(([a,r])=>{const[x,z]=polar(a,r);const d=add(new THREE.SphereGeometry(6,32,16,0,Math.PI*2,0,Math.PI/2),glass,x,0,z,eden);d.scale.set(1.4,.75,1);d.rotation.y=-a;
+   const arc=add(new THREE.TorusGeometry(6,.18,8,48,Math.PI),white,x,0,z,eden);arc.scale.set(1.4,.75,1);arc.rotation.y=-a+Math.PI/2});
+ const orbMat=new THREE.MeshPhysicalMaterial({color:0xc8f6ff,emissive:0x2aa9d8,emissiveIntensity:.6,roughness:.05,transparent:true,opacity:.8});
+ [[-.5,13],[.5,13],[Math.PI-.5,13],[Math.PI+.5,13]].forEach(([a,r])=>{const[x,z]=polar(a+Math.PI/2,r);add(new THREE.CylinderGeometry(1.4,1.6,.6,24),white,x,.4,z,eden);add(new THREE.SphereGeometry(1.5,24,18),orbMat,x,2.2,z,eden)});}
+// Green-balcony glass towers around the rim (instanced balconies/greens)
+const towerSpots=[];{
+ for(let k=0;k<8;k++){const base=Math.PI/8+k*Math.PI/4;[[-.1,62],[.1,65.5]].forEach(([d,r],j)=>{towerSpots.push({a:base+d,r,h:rr(22,48),cr:rr(2.4,3.2)})})}
+ let n=0;towerSpots.forEach(t=>{for(let y=3;y<t.h-.5;y+=4)n++});
+ const coreGeo=new THREE.CylinderGeometry(1,1,1,20),discGeo=new THREE.CylinderGeometry(1,1,1,20),greenGeo=new THREE.CylinderGeometry(1,1,1,14);
+ const cores=new THREE.InstancedMesh(coreGeo,glass,towerSpots.length),discs=new THREE.InstancedMesh(discGeo,white,n),greens=new THREE.InstancedMesh(greenGeo,leaf,n);
+ const m4=new THREE.Matrix4(),q=new THREE.Quaternion(),s=new THREE.Vector3(),p=new THREE.Vector3();let i=0;
+ towerSpots.forEach((t,ti)=>{const[x,z]=polar(t.a,t.r);t.x=x;t.z=z;cores.setMatrixAt(ti,m4.compose(p.set(x,t.h/2,z),q,s.set(t.cr,t.h,t.cr)));
+   for(let y=3;y<t.h-.5;y+=4){const off=((y/4)%2?.6:-.6);discs.setMatrixAt(i,m4.compose(p.set(x+off*.4,y,z),q,s.set(t.cr+1.3,.3,t.cr+1.3)));greens.setMatrixAt(i,m4.compose(p.set(x+off*.4,y+.42,z),q,s.set(t.cr+1.1,.55,t.cr+1.1)));i++}
+   const crown=add(new THREE.SphereGeometry(t.cr+1.6,16,10),leafLight,x,t.h+.6,z,eden);crown.scale.y=.4;
+   const halo=add(new THREE.TorusGeometry(t.cr+1.4,.12,6,40),neon,x,t.h-.6,z,eden);halo.rotation.x=Math.PI/2});
+ discs.count=greens.count=i;cores.castShadow=discs.castShadow=true;eden.add(cores,discs,greens);}
+// Residential plots (deterministic): sectors between avenues and canals, rows of plots on arcs.
+const EDEN_PLOTS=[];{const SP=6.2;
+ for(let k=0;k<8;k++){const a0=k*Math.PI/4;for(let r=25.5;r<=51;r+=6.2){const a1=a0+4/r,a2=a0+Math.PI/4-4/r,cnt=Math.max(1,Math.floor((a2-a1)*r/SP)+1);
+   for(let j=0;j<cnt;j++){const a=cnt===1?(a1+a2)/2:a1+(a2-a1)*j/(cnt-1);const[x,z]=polar(a,r);EDEN_PLOTS.push({x,y:.05,z})}}}}
+// Trees lining avenues/canals + outer park (instanced)
+{const spots=[];const lineTrees=(a,off)=>{for(let r=21;r<EDEN_R-4;r+=4.2){const[x,z]=polar(a,r);spots.push([x-Math.sin(a)*off,z+Math.cos(a)*off,rr(.8,1.25)])}};
+ AVENUES.forEach(a=>{lineTrees(a,3.4);lineTrees(a,-3.4)});CANALS.forEach(a=>{lineTrees(a,2.9);lineTrees(a,-2.9)});
+ for(let i=0;i<160;i++){const a=rr(0,Math.PI*2),r=rr(54,EDEN_R-3),[x,z]=polar(a,r);if(towerSpots.some(t=>Math.hypot(t.x-x,t.z-z)<t.cr+3))continue;spots.push([x,z,rr(.9,1.6)])}
+ const trunks=new THREE.InstancedMesh(new THREE.CylinderGeometry(.16,.24,1,6),mat(0x7a5a43),spots.length),crowns=new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1,1),mat(0xffffff,.85),spots.length);
+ const m4=new THREE.Matrix4(),q=new THREE.Quaternion(),s=new THREE.Vector3(),p=new THREE.Vector3(),greensPal=[0x4f9b4b,0x66b257,0x3f8a4e,0x7cbf5e,0x90c96a];
+ spots.forEach(([x,z,k],i)=>{trunks.setMatrixAt(i,m4.compose(p.set(x,k,z),q,s.set(k,2*k,k)));crowns.setMatrixAt(i,m4.compose(p.set(x,2.4*k,z),q,s.set(1.3*k,1.15*k,1.3*k)));crowns.setColorAt(i,new THREE.Color(greensPal[i%greensPal.length]))});
+ crowns.castShadow=true;eden.add(trunks,crowns);
+ // flower beds along the ring canal
+ const fl=new THREE.InstancedMesh(new THREE.BoxGeometry(1,1,1),mat(0xffffff,.9),96),fpal=[0xff7aa8,0xffb35c,0xf6e27a,0xc58cff];
+ for(let i=0;i<96;i++){const a=i/96*Math.PI*2;const[x,z]=polar(a,20.6);fl.setMatrixAt(i,m4.compose(p.set(x,.25,z),q.setFromAxisAngle(new THREE.Vector3(0,1,0),-a),s.set(.9,.5,1.1)));fl.setColorAt(i,new THREE.Color(fpal[i%4]))}eden.add(fl);
+ // glowing lamp orbs along the avenues
+ const lamps=[];AVENUES.forEach(a=>{for(let r=22;r<EDEN_R-4;r+=7){[2.4,-2.4].forEach(off=>{const[x,z]=polar(a,r);lamps.push([x-Math.sin(a)*off,z+Math.cos(a)*off])})}});
+ const posts=new THREE.InstancedMesh(new THREE.CylinderGeometry(.06,.08,2.2,6),mat(0xc9d3da,.3,.8),lamps.length),bulbs=new THREE.InstancedMesh(new THREE.SphereGeometry(.32,12,8),neon,lamps.length);
+ lamps.forEach(([x,z],i)=>{posts.setMatrixAt(i,m4.compose(p.set(x,1.1,z),q.identity(),s.set(1,1,1)));bulbs.setMatrixAt(i,m4.compose(p.set(x,2.3,z),q,s))});eden.add(posts,bulbs);}
+// Drones gliding over EDEN (motion driven by world time)
+const drones=[];{const body=new THREE.CylinderGeometry(1.3,1,.35,24),ringG=new THREE.TorusGeometry(1.25,.09,6,32),dm=mat(0xe9eef2,.25,.7);
+ for(let i=0;i<7;i++){const g=new THREE.Group();g.add(new THREE.Mesh(body,dm));const r=new THREE.Mesh(ringG,neon);r.rotation.x=Math.PI/2;r.position.y=-.2;g.add(r);scene.add(g);drones.push({g,r:rr(22,58),h:rr(28,52),sp:rr(.04,.09)*(i%2?1:-1),ph:rr(0,6.3)})}}
+// ======================= CRYSTAL BAY: secondary island (non-EDEN homes) =======================
+const CB={x:190,y:10,z:-40,r:24};
+{const g=new THREE.Group();g.position.set(CB.x,CB.y,CB.z);scene.add(g);
+ const sand=mat(0xe6d9b8,.85);add(new THREE.CylinderGeometry(CB.r,CB.r-5,5,64),sand,0,-2.5,0,g).receiveShadow=true;add(new THREE.ConeGeometry(CB.r-5,26,32),stone,0,-18,0,g);
+ const lag=add(new THREE.CircleGeometry(9,48),water,-8,.06,6,g);lag.rotation.x=-Math.PI/2;
+ add(new THREE.CylinderGeometry(5,5,.25,40),white,4,.12,-4,g);
+ for(let i=0;i<10;i++){const a=i/10*Math.PI*2,[x,z]=polar(a,CB.r-1.2);const f=add(new THREE.PlaneGeometry(2.6,26),fallMat,x,-14,z,g);f.rotation.y=-a+Math.PI/2}
+ const palmLeaf=new THREE.ConeGeometry(2,1.2,7);for(let i=0;i<12;i++){const a=rr(0,6.3),r=rr(10,CB.r-3),[x,z]=polar(a,r);add(new THREE.CylinderGeometry(.14,.22,4,6),mat(0x9b7b55),x,2,z,g);add(palmLeaf,leaf,x,4.2,z,g)}
+ // sky-bridge from the NEO CITY waterfront to Crystal Bay
+ const a=Math.atan2(CB.z-NEO.T.z,CB.x-NEO.T.x),p0=new THREE.Vector3(NEO.T.x+Math.cos(a)*(NEO.T.r-2),1.3,NEO.T.z+Math.sin(a)*(NEO.T.r-2)),p1=new THREE.Vector3(CB.x-Math.cos(a)*(CB.r-2),CB.y+.3,CB.z-Math.sin(a)*(CB.r-2));
+ const deck=new THREE.Mesh(new THREE.BoxGeometry(3,.3,p0.distanceTo(p1)),white);deck.position.copy(p0).add(p1).multiplyScalar(.5);deck.lookAt(p1);scene.add(deck);
+ const rail=new THREE.Mesh(new THREE.BoxGeometry(3.4,.08,p0.distanceTo(p1)),neon);rail.position.copy(deck.position);rail.position.y-=.25;rail.quaternion.copy(deck.quaternion);scene.add(rail);}
+// ======================= Sky: ringed planet, nebula glow, stars =======================
+const orb=new THREE.Group();scene.add(orb);{const planetTex=(()=>{const c=document.createElement('canvas');c.width=256;c.height=128;const g=c.getContext('2d');for(let y=0;y<128;y++){const v=Math.sin(y*.21)*.5+Math.sin(y*.05+1)*.5;g.fillStyle='hsl('+(270+v*25)+' 35% '+(62+v*12)+'%)';g.fillRect(0,y,256,1)}const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t})();
+const sphere=new THREE.Mesh(new THREE.SphereGeometry(14,48,32),new THREE.MeshStandardMaterial({map:planetTex,roughness:.9,emissive:0x2a1f55,emissiveIntensity:.35,fog:false}));orb.add(sphere);const ring=new THREE.Mesh(new THREE.RingGeometry(18,27,128),new THREE.MeshStandardMaterial({color:0xe8d6f0,emissive:0x5a3f80,emissiveIntensity:.4,side:THREE.DoubleSide,transparent:true,opacity:.7,roughness:.6,fog:false}));ring.rotation.x=Math.PI/2.45;orb.add(ring);orb.position.set(120,210,-560);orb.scale.setScalar(5.5);}
+for(let i=0;i<4;i++){let p=new THREE.Mesh(new THREE.SphereGeometry(3+i*1.2,24,18),mat([0x7f8ebd,0x9873a9,0x5e9d9c,0xc08a69][i]));p.position.set(-260+i*60,120+i*25,-520-i*40);p.scale.setScalar(3);p.material.fog=false;scene.add(p)}
+const nebulaTex=(()=>{const c=document.createElement('canvas');c.width=c.height=256;const g=c.getContext('2d');const gr=g.createRadialGradient(128,128,0,128,128,128);gr.addColorStop(0,'rgba(255,255,255,.9)');gr.addColorStop(.35,'rgba(255,255,255,.35)');gr.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=gr;g.fillRect(0,0,256,256);return new THREE.CanvasTexture(c)})();
+const nebulae=[[0xa98bff,40,300,-640,520],[0xff6fd0,190,250,-600,380],[0x5ff2e6,-180,240,-620,420],[0x8a6bff,-40,360,-700,600]].map(([c,x,y,z,s])=>{const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:nebulaTex,color:c,transparent:true,opacity:.35,blending:THREE.AdditiveBlending,depthWrite:false,fog:false}));sp.position.set(x,y,z);sp.scale.set(s,s*.6,1);scene.add(sp);return sp});
+const starGeo=new THREE.BufferGeometry(),coords=[];for(let i=0;i<1800;i++)coords.push((R()-.5)*1600,R()*520+40,(R()-.5)*1600);starGeo.setAttribute('position',new THREE.Float32BufferAttribute(coords,3));const stars=new THREE.Points(starGeo,new THREE.PointsMaterial({color:0xdff7ff,size:.75,transparent:true,opacity:.9,fog:false}));scene.add(stars);
+// ======================= Resident homes: 2D image billboards =======================
+const MAX=10000,HOUSE_LOD_DIST=170;
+// houses.model -> image. 'luxury_white' (legacy DB default) picks a stable variety per house id.
+const HOUSE_TYPES={
+  organic_white:{file:'/assets/houses/organic_white.webp',size:5.6},
+  glass_tiers:{file:'/assets/houses/glass_tiers.webp',size:5.4},
+  rock_villa:{file:'/assets/houses/rock_villa.webp',size:5.8},
+  eden_villa:{file:'/assets/houses/eden_villa.webp',size:5.6,fallback:'organic_white',ready:false}// set ready:true once eden_villa.webp is added
+};
+const VARIETY=['organic_white','glass_tiers','rock_villa'];
+const houseType=(model,id)=>HOUSE_TYPES[model]?model:VARIETY[hashStr(id)%VARIETY.length];
+const placeholderTex=(()=>{const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d');g.fillStyle='rgba(240,248,250,.92)';g.beginPath();g.moveTo(22,124);g.lineTo(22,70);g.lineTo(64,40);g.lineTo(106,70);g.lineTo(106,124);g.closePath();g.fill();g.fillStyle='rgba(120,220,235,.9)';g.fillRect(40,82,48,26);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t})();
+const texCache=new Map(),matCache=new Map(),texLoader=new THREE.TextureLoader();
+function houseTexture(type){if(HOUSE_TYPES[type].ready===false)return houseTexture(HOUSE_TYPES[type].fallback);if(texCache.has(type))return texCache.get(type);const entry={tex:null,waiters:[]};texCache.set(type,entry);
+  texLoader.load(HOUSE_TYPES[type].file,t=>{t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=4;entry.tex=t;entry.waiters.forEach(f=>f(t));entry.waiters.length=0},undefined,()=>{const fb=HOUSE_TYPES[type].fallback;if(fb){const e2=houseTexture(fb);const use=t=>{entry.tex=t;entry.waiters.forEach(f=>f(t));entry.waiters.length=0};e2.tex?use(e2.tex):e2.waiters.push(use)}});
+  return entry}
+function houseMaterial(type,color){const tint=/^#[0-9a-f]{6}$/i.test(color||'')?color.toLowerCase():'#ffffff';const key=type+'|'+tint;if(matCache.has(key))return matCache.get(key);
+  const m=new THREE.SpriteMaterial({map:placeholderTex,color:new THREE.Color(tint).lerp(new THREE.Color(0xffffff),.78),transparent:true,alphaTest:.12});
+  const e=houseTexture(type),apply=t=>{m.map=t;m.needsUpdate=true};e.tex?apply(e.tex):e.waiters.push(apply);matCache.set(key,m);return m}
+const padTex=(()=>{const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d');const gr=g.createRadialGradient(64,64,8,64,64,64);gr.addColorStop(0,'rgba(10,30,40,.55)');gr.addColorStop(.55,'rgba(80,230,240,.35)');gr.addColorStop(.8,'rgba(140,250,255,.25)');gr.addColorStop(1,'rgba(140,250,255,0)');g.fillStyle=gr;g.fillRect(0,0,128,128);return new THREE.CanvasTexture(c)})();
+const pads=new THREE.InstancedMesh(new THREE.PlaneGeometry(6.6,6.6).rotateX(-Math.PI/2),new THREE.MeshBasicMaterial({map:padTex,transparent:true,depthWrite:false}),MAX);pads.count=0;pads.frustumCulled=false;scene.add(pads);
 const villas=new THREE.Group();scene.add(villas);
 const members=[];
-function homePosition(n){const district=Math.floor(n/1667),local=n%1667;const cols=42,spacing=.85,row=Math.floor(local/cols),col=local%cols;const angle=district*Math.PI/3,r=13.8;let cx=Math.cos(angle)*r,cz=Math.sin(angle)*r*.78;return{x:cx-(cols-1)*spacing/2+col*spacing,y:3.5,z:cz-17+row*spacing}}
 const nf=new Intl.NumberFormat('en-US');let residentCount=0,homeCount=0;
 function stats(){document.querySelector('#members').textContent=nf.format(residentCount);document.querySelector('#homes').textContent=nf.format(homeCount)}
 const byHouseId=new Map();
-function addMember(name,p,houseId=null,ownerId=null,opts={}){if(members.length>=MAX)return false;const i=members.length;const v=createVilla(opts.color,opts.model);v.position.set(p.x,p.y,p.z);v.rotation.y=Math.atan2(p.x,p.z);// front faces outward, towards the arriving camera
-v.userData.index=i;villas.add(v);members.push({name,position:p,houseId,ownerId,object:v});if(houseId)byHouseId.set(houseId,i);return true}
+const _m4=new THREE.Matrix4();
+function addMember(name,p,houseId=null,ownerId=null,opts={}){if(members.length>=MAX)return false;const i=members.length;const type=houseType(opts.model,houseId||name);
+  const sp=new THREE.Sprite(houseMaterial(type,opts.color));sp.center.set(.5,.03);const s=HOUSE_TYPES[type].size;sp.scale.set(s,s,1);sp.position.set(p.x,p.y+.05,p.z);
+  sp.userData.index=i;villas.add(sp);pads.setMatrixAt(i,_m4.makeTranslation(p.x,p.y+.07,p.z));pads.count=i+1;pads.instanceMatrix.needsUpdate=true;
+  members.push({name,position:p,houseId,ownerId,object:sp,demo:!!opts.demo});if(houseId)byHouseId.set(houseId,i);return true}
 function toast(s){let e=document.querySelector('#toast');e.textContent=s;e.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>e.classList.remove('show'),2800)}
 // ---- Visitor mode: data access (public read only, no auth) ----
 const HOUSE_FIELDS='id,owner_id,house_name,model,color,position_x,position_y,position_z,created_at,profiles!inner(username,created_at),districts(name,planets(name))';
 const UUID_RE=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const GROUND_Y=3.5;// AURELIA surface; homes stored below it (e.g. y=0) are lifted so they stay visible.
-const posOf=row=>({x:Number(row.position_x)||0,y:Math.max(Number(row.position_y)||0,GROUND_Y),z:Number(row.position_z)||0});
+// Where a home stands (fixed plot system):
+// - NEO CITY (start district) and EDEN: stored coords are used when set; homes at 0,0 get the next free fixed plot
+//   in created_at order (assigned in loadHouses), falling back to a stable id-based plot.
+// - Other districts are placed on the Crystal Bay island (coords relative to its centre) until their areas are built.
+const ZONES={'CRYSTAL BAY':{x:CB.x,y:CB.y,z:CB.z,r:CB.r}};
+const plotOf=new Map();
+const PLOTS={'NEO CITY':NEO_PLOTS,'EDEN':EDEN_PLOTS.map(p=>({x:p.x+EDEN_O.x,y:p.y,z:p.z+EDEN_O.z}))};
+const DISTRICT_ORIGIN={'NEO CITY':{x:0,z:0},'EDEN':EDEN_O};
+function assignPlots(rows){const used={};for(const r of rows){const d=String(r.districts?.name||'').toUpperCase();const list=PLOTS[d];if(!list)continue;
+  if(Math.abs(Number(r.position_x)||0)<.01&&Math.abs(Number(r.position_z)||0)<.01){used[d]=(used[d]||0);if(used[d]<list.length)plotOf.set(r.id,list[used[d]++])}}}
+function posOf(row){const d=String(row.districts?.name||'').toUpperCase();let x=Number(row.position_x)||0,z=Number(row.position_z)||0;
+  if(PLOTS[d]){if(Math.abs(x)<.01&&Math.abs(z)<.01)return {...(plotOf.get(row.id)||PLOTS[d][hashStr(row.id)%PLOTS[d].length])};const o=DISTRICT_ORIGIN[d];return {x:o.x+x,y:1.05,z:o.z+z}}
+  const zone=ZONES[d]||ZONES['CRYSTAL BAY'],len=Math.hypot(x,z),max=zone.r-4;if(len>max){x*=max/len;z*=max/len}
+  return {x:zone.x+x,y:zone.y+.05,z:zone.z+z}}
 async function loadHouses(){
-  const {data,error}=await supabase.from('houses').select('id,owner_id,house_name,model,color,position_x,position_y,position_z,created_at,profiles(username)').order('created_at',{ascending:true}).limit(MAX);
+  const {data,error}=await supabase.from('houses').select('id,owner_id,house_name,model,color,position_x,position_y,position_z,created_at,profiles(username),districts(name)').order('created_at',{ascending:true}).limit(MAX);
   if(error){console.error(error);toast('Could not load homes: '+error.message);return;}
-  members.length=0;byHouseId.clear();villas.clear();
-  (data||[]).forEach(row=>addMember(row.profiles?.username||row.house_name,posOf(row),row.id,row.owner_id,{color:row.color,model:row.model}));
-  residentCount=new Set(members.map(m=>m.ownerId).filter(Boolean)).size;homeCount=members.length;
+  members.length=0;byHouseId.clear();villas.clear();pads.count=0;
+  assignPlots(data||[]);(data||[]).forEach(row=>addMember(row.profiles?.username||row.house_name,posOf(row),row.id,row.owner_id,{color:row.color,model:row.model}));
+  residentCount=new Set(members.filter(m=>!m.demo).map(m=>m.ownerId).filter(Boolean)).size;homeCount=members.length;
   // Exact total from the database (the scene renders at most MAX homes).
   const {count,error:cErr}=await supabase.from('houses').select('id',{count:'exact'}).limit(1);
   if(!cErr&&typeof count==='number')homeCount=count;
@@ -252,15 +399,15 @@ async function findPartial(name){
 }
 // ---- Camera flight + selected-home marker ----
 const marker=new THREE.Group();marker.visible=false;scene.add(marker);
-{const beam=new THREE.Mesh(new THREE.CylinderGeometry(.06,.06,7,8),new THREE.MeshBasicMaterial({color:0x8eeaff,transparent:true,opacity:.55}));beam.position.y=6.4;marker.add(beam);const halo=new THREE.Mesh(new THREE.TorusGeometry(2.05,.06,8,48),neon);halo.rotation.x=Math.PI/2;halo.position.y=.15;marker.add(halo);const warm=new THREE.PointLight(0xffc98a,7,9,1.6);warm.position.set(0,2.6,1.6);marker.add(warm);}
+{const beam=new THREE.Mesh(new THREE.CylinderGeometry(.06,.06,7,8),new THREE.MeshBasicMaterial({color:0x8eeaff,transparent:true,opacity:.55}));beam.position.y=10;marker.add(beam);const halo=new THREE.Mesh(new THREE.TorusGeometry(3.3,.08,8,56),neon);halo.rotation.x=Math.PI/2;halo.position.y=.15;marker.add(halo);const warm=new THREE.PointLight(0xffc98a,7,9,1.6);warm.position.set(0,3,2.4);marker.add(warm);}
 let fly=null;
-function viewFor(p){const target=new THREE.Vector3(p.x,p.y+(innerWidth<700?1.9:1.1),p.z);// on phones aim a bit higher so the home sits below the resident card
-const off=new THREE.Vector3(p.x,0,p.z).normalize();if(!isFinite(off.x)||off.lengthSq()<.01)off.set(0,0,1);const phone=innerWidth<700;off.multiplyScalar(phone?10:7.2);off.y=phone?6.2:4.2;return{target,pos:target.clone().add(off)}}
+function viewFor(p){const phone=innerWidth<700;const target=new THREE.Vector3(p.x,p.y+(phone?3.8:2.5),p.z);// phones: aim higher so the home sits below the resident card
+const off=new THREE.Vector3(p.x,0,p.z).normalize();if(!isFinite(off.x)||off.lengthSq()<.01)off.set(0,0,1);off.multiplyScalar(phone?16:11.5);off.y=phone?7:5;return{target,pos:target.clone().add(off)}}
 function flyTo(p,instant=false){const v=viewFor(p);marker.position.set(p.x,p.y,p.z);marker.visible=true;
   if(instant){fly=null;camera.position.copy(v.pos);controls.target.copy(v.target);controls.update();return}
-  fly={p0:camera.position.clone(),t0:controls.target.clone(),p1:v.pos,t1:v.target,start:performance.now(),dur:1700};}
+  fly={p0:camera.position.clone(),t0:controls.target.clone(),p1:v.pos,t1:v.target,start:performance.now(),dur:Math.min(3200,1500+camera.position.distanceTo(v.pos)*9)};}
 function stepFly(){if(!fly)return;let k=Math.min(1,(performance.now()-fly.start)/fly.dur);k=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;
-  const lift=Math.sin(k*Math.PI)*Math.min(18,fly.p0.distanceTo(fly.p1)*.25);
+  const lift=Math.sin(k*Math.PI)*Math.min(30,fly.p0.distanceTo(fly.p1)*.25);
   camera.position.lerpVectors(fly.p0,fly.p1,k);camera.position.y+=lift;controls.target.lerpVectors(fly.t0,fly.t1,k);if(k>=1)fly=null}
 controls.addEventListener('start',()=>{fly=null});
 // ---- Resident card ----
@@ -276,7 +423,7 @@ function showCard(row){selected=row;const name=row.profiles?.username||'resident
 function closeCard(){card.hidden=true;selected=null;marker.visible=false}
 function setPath(path,mode){if(location.pathname===path)return;try{history[mode==='replace'?'replaceState':'pushState']({},'',path)}catch(e){console.warn(e)}}
 function ensureRendered(row){if(!byHouseId.has(row.id)&&addMember(row.profiles?.username||row.house_name,posOf(row),row.id,row.owner_id,{color:row.color,model:row.model})){homeCount=Math.max(homeCount,members.length);stats()}}
-function selectHouse(row,{push=true,instant=false}={}){ensureRendered(row);showCard(row);flyTo(posOf(row),instant);if(push)setPath('/house/'+row.id,'push')}
+function selectHouse(row,{push=true,instant=false}={}){ensureRendered(row);const mi=byHouseId.get(row.id);if(mi!==undefined)members[mi].object.visible=true;showCard(row);flyTo(posOf(row),instant);if(push)setPath('/house/'+row.id,'push')}
 $('#cardClose').onclick=()=>{closeCard();setPath('/','push')};
 $('#cardVisit').onclick=()=>{if(selected)flyTo(posOf(selected))};
 $('#cardCopy').onclick=async()=>{if(!selected)return;const url=houseUrl(selected.id);
@@ -309,9 +456,31 @@ async function routeFromPath({instant=false}={}){
 }
 addEventListener('popstate',()=>routeFromPath());
 await loadHouses();
+// Preview only: /?demo=40 fills NEO CITY plots with sample homes (not real residents, not counted in stats).
+{const n=Math.min(Number(params.get('demo'))||0,NEO_PLOTS.length);const types=Object.keys(HOUSE_TYPES);for(let i=0;i<n;i++)addMember('preview home',NEO_PLOTS[i],null,null,{model:types[i%types.length],demo:true})}
 await routeFromPath({instant:true});
 const ray=new THREE.Raycaster(),mouse=new THREE.Vector2();renderer.domElement.addEventListener('dblclick',async e=>{mouse.x=e.clientX/innerWidth*2-1;mouse.y=-(e.clientY/innerHeight)*2+1;ray.setFromCamera(mouse,camera);const hit=ray.intersectObject(villas,true)[0];let o=hit&&hit.object;while(o&&o.userData.index===undefined)o=o.parent;const m=o&&members[o.userData.index];if(!m)return;toast('NEBULA resident: @'+m.name);if(!m.houseId)return;const row=await fetchHouse(m.houseId);if(row)selectHouse(row);});
-let running=true;document.querySelector('#pause').onclick=()=>{running=!running;toast(running?'Day/night cycle resumed.':'Time paused.')};document.querySelector('#reset').onclick=()=>{fly=null;camera.position.set(44,34,55);controls.target.set(0,5,0);controls.update()};
-const clock=new THREE.Clock();function animate(){requestAnimationFrame(animate);let t=clock.getElapsedTime(),day=running?(Math.sin(t*.025)+1)/2:.55;let night=new THREE.Color(0x080d26),daySky=new THREE.Color(0x91b8d0),sky=night.clone().lerp(daySky,day);scene.background.copy(sky);scene.fog.color.copy(sky);sun.intensity=.3+day*3;sun.color.set(0x849fe2).lerp(new THREE.Color(0xffe2bc),day);fill.intensity=35+day*70;stars.material.opacity=.95*(1-day*.88);orb.rotation.y=t*.012;obelisk.rotation.y=t*.18;obelisk.position.y=7+Math.sin(t)*.25;marker.rotation.y=t*.8;stepFly();controls.update();renderer.render(scene,camera)}animate();
-addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+let running=true;document.querySelector('#pause').onclick=()=>{running=!running;toast(running?'Day/night cycle resumed.':'Time paused.')};
+function setPose(pose){camera.position.set(...pose.pos);controls.target.set(...pose.target);camera.lookAt(controls.target)}
+document.querySelector('#reset').onclick=()=>{fly=null;setPose(startPose());controls.update()};
+// World animation is a pure function of time t (seconds) so the future video mode can render exact frames.
+const _skyNight=new THREE.Color(0x3a3a6a),_skyDusk=new THREE.Color(0xffffff),_fogNight=new THREE.Color(0x1c1a3c),_fogDusk=new THREE.Color(0x9a6aa8),_sunNight=new THREE.Color(0x849fe2),_sunDay=new THREE.Color(0xffe2bc);
+function updateWorld(t,dayOverride){const day=dayOverride??(running?(Math.sin(t*.025)+1)/2:.55);
+  skyMat.color.copy(_skyNight).lerp(_skyDusk,day);scene.fog.color.copy(_fogNight).lerp(_fogDusk,day);towerMat.emissiveIntensity=.25+(1-day)*.5;towerDark.emissiveIntensity=.4+(1-day)*.6;sun.intensity=.4+day*2.2;sun.color.copy(_sunNight).lerp(_sunDay,day);fill.intensity=60+(1-day)*160;
+  stars.material.opacity=.95*(1-day*.88);nebulae.forEach((n,i)=>n.material.opacity=.12+(1-day)*.38);water.emissiveIntensity=.45+(1-day)*.6;
+  orb.rotation.y=t*.012;obelisk.rotation.y=t*.18;obelisk.position.y=47+Math.sin(t)*.35;marker.rotation.y=t*.8;fallTex.offset.y=(t*.45)%1;
+  flyers.forEach(f=>{const a=f.ph+t*f.sp;f.g.position.set(f.cx+Math.cos(a)*f.rx,f.h+Math.sin(t*.5+f.ph)*(f.big?2:1),f.cz+Math.sin(a)*f.rz);f.g.rotation.y=-Math.atan2(Math.cos(a)*f.rz*f.sp,-Math.sin(a)*f.rx*f.sp)});
+  drones.forEach(d=>{const a=d.ph+t*d.sp;d.g.position.set(EDEN_O.x+Math.cos(a)*d.r,d.h+Math.sin(t*.7+d.ph)*1.2,EDEN_O.z+Math.sin(a)*d.r);d.g.rotation.y=-a})}
+// Distance LOD: far billboards are hidden (their glow pad remains) to keep thousands of homes cheap.
+const _lodV=new THREE.Vector3();let _lodAt=0;function updateLOD(force){const now=performance.now();if(!force&&now-_lodAt<250)return;_lodAt=now;const c=camera.position;eden.visible=Math.hypot(c.x-EDEN_O.x,c.z-EDEN_O.z)<520;for(const m of members){m.object.visible=_lodV.set(m.position.x,m.position.y,m.position.z).distanceTo(c)<HOUSE_LOD_DIST}}
+const clock=new THREE.Clock();
+function animate(){requestAnimationFrame(animate);stepFly();controls.update();updateWorld(clock.getElapsedTime());updateLOD();renderer.render(scene,camera)}
+// ---- Hooks for the future ?video=1 mode (720x1280 @30fps): no UI, no rAF loop, frames rendered on demand. ----
+if(VIDEO){document.documentElement.classList.add('video');controls.enabled=false;
+  window.NEBULA_VIDEO={pois:CAMERA_POIS,plots:NEO_PLOTS,poseForHome(p){const v=viewFor(p);return{pos:v.pos.toArray(),target:v.target.toArray()}},homes:()=>members.map(m=>({id:m.houseId,name:m.name,...m.position})),
+    setSize(w=720,h=1280){renderer.setPixelRatio(1);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()},
+    frame(t,pose,day){if(pose)setPose(pose);updateWorld(t,day);for(const m of members)m.object.visible=true;renderer.render(scene,camera);return renderer.domElement}};
+  window.NEBULA_VIDEO.setSize();
+}else animate();
+addEventListener('resize',()=>{if(VIDEO)return;camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
 </script></body></html>
