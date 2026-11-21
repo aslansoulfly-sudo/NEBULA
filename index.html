@@ -150,14 +150,73 @@ const orb=new THREE.Group();scene.add(orb);const sphere=new THREE.Mesh(new THREE
 for(let i=0;i<4;i++){let p=new THREE.Mesh(new THREE.SphereGeometry(2+i*.8,24,18),mat([0x7f8ebd,0x9873a9,0x5e9d9c,0xc08a69][i]));p.position.set(75+i*32,25+i*7,-90-i*20);scene.add(p)}
 const starGeo=new THREE.BufferGeometry(),coords=[];for(let i=0;i<1600;i++)coords.push((Math.random()-.5)*900,Math.random()*380-80,(Math.random()-.5)*900);starGeo.setAttribute('position',new THREE.Float32BufferAttribute(coords,3));const stars=new THREE.Points(starGeo,new THREE.PointsMaterial({color:0xdff7ff,size:.65,transparent:true,opacity:.9}));scene.add(stars);
 // Luxury resident homes: shared geometry with individually varied finishes, instanced for scale.
-const MAX=10000,bodyGeo=new THREE.BoxGeometry(1.55,1.2,1.45),roofGeo=new THREE.BoxGeometry(1.8,.18,1.7),accentGeo=new THREE.BoxGeometry(.12,.65,.08);
-const bodies=new THREE.InstancedMesh(bodyGeo,new THREE.MeshStandardMaterial({color:0xffffff,roughness:.32,metalness:.12}),MAX),roofs=new THREE.InstancedMesh(roofGeo,new THREE.MeshStandardMaterial({color:0xffffff,roughness:.3,metalness:.2}),MAX);scene.add(bodies,roofs);bodies.castShadow=roofs.castShadow=true;
-const dummy=new THREE.Object3D(),colors=[0xe8f0f0,0xd8e6ef,0xe7d5b8,0xb8d8d7,0xd5c8ed,0xc7dfc6,0xe4c5c0,0xb8c9e6],members=[];
+const MAX=10000;
+// ---- Luxury villa: shared geometries/materials (created once, reused by every home) ----
+const VILLA={
+  geo:{
+    plinth:new THREE.BoxGeometry(2.9,.14,2.7),
+    low:new THREE.BoxGeometry(2.1,.82,1.55),
+    lowGlass:new THREE.BoxGeometry(1.7,.6,.04),
+    sideGlass:new THREE.BoxGeometry(.04,.6,1.1),
+    glow:new THREE.BoxGeometry(1.6,.5,.02),
+    lowRoof:new THREE.BoxGeometry(2.35,.08,1.8),
+    up:new THREE.BoxGeometry(1.55,.66,1.25),
+    upGlass:new THREE.BoxGeometry(1.35,.46,.04),
+    upGlow:new THREE.BoxGeometry(1.25,.38,.02),
+    upRoof:new THREE.BoxGeometry(1.95,.08,1.55),
+    trimX:new THREE.BoxGeometry(1,.025,.025),
+    post:new THREE.CylinderGeometry(.025,.025,1,8),
+    pool:new THREE.BoxGeometry(1.15,.05,.62),
+    poolRim:new THREE.BoxGeometry(1.27,.07,.74),
+    rail:new THREE.BoxGeometry(1,.16,.015)
+  },
+  mat:{
+    metal:new THREE.MeshStandardMaterial({color:0xc9d3da,roughness:.25,metalness:.9}),
+    deck:new THREE.MeshStandardMaterial({color:0xe9e4da,roughness:.55,metalness:.05}),
+    glass:new THREE.MeshPhysicalMaterial({color:0x9ff3f0,roughness:.06,metalness:.1,transparent:true,opacity:.42,transmission:.35,ior:1.45,thickness:.05,depthWrite:false}),
+    glow:new THREE.MeshStandardMaterial({color:0xffd9a3,emissive:0xffb766,emissiveIntensity:1.35,roughness:.8}),
+    pool:new THREE.MeshStandardMaterial({color:0x3fe0ea,emissive:0x0aa6c2,emissiveIntensity:.7,roughness:.1,metalness:.1,transparent:true,opacity:.9}),
+    railGlass:new THREE.MeshPhysicalMaterial({color:0xbff7ff,roughness:.05,transparent:true,opacity:.3,depthWrite:false})
+  },
+  white:new Map()
+};
+function villaWhite(color){const key=(/^#[0-9a-f]{6}$/i.test(color||'')?color:'#ffffff').toLowerCase();
+  if(!VILLA.white.has(key))VILLA.white.set(key,new THREE.MeshStandardMaterial({color:new THREE.Color(key).lerp(new THREE.Color(0xffffff),.15),roughness:.28,metalness:.08}));return VILLA.white.get(key)}
+function createVilla(color='#FFFFFF',model='luxury_white'){
+  // Only 'luxury_white' exists today; other models fall back to it.
+  const G=VILLA.geo,M=VILLA.mat,W=villaWhite(color),g=new THREE.Group();g.userData.model=model;
+  const add=(geo,mat,x,y,z,sx=1,sy=1,sz=1,shadow=false)=>{const m=new THREE.Mesh(geo,mat);m.position.set(x,y,z);m.scale.set(sx,sy,sz);if(shadow){m.castShadow=true;m.receiveShadow=true}g.add(m);return m};
+  // Base plinth + deck (front = +z)
+  add(G.plinth,M.deck,0,.07,.2,1,1,1,true);
+  // Ground floor: white volume, full-height glass front with warm interior glow
+  add(G.low,W,-.25,.55,-.15,1,1,1,true);
+  add(G.glow,M.glow,-.25,.53,.6);
+  add(G.lowGlass,M.glass,-.25,.53,.63);
+  add(G.sideGlass,M.glass,.81,.53,-.1);
+  add(G.lowRoof,W,-.2,1.0,-.1,1,1,1,true);
+  add(G.trimX,M.metal,-.2,.95,.8,2.35);
+  // Upper floor: offset & cantilevered over the terrace
+  add(G.up,W,.45,1.37,-.3,1,1,1,true);
+  add(G.upGlow,M.glow,.45,1.37,.33);
+  add(G.upGlass,M.glass,.45,1.37,.36);
+  add(G.upRoof,W,.5,1.74,-.22,1,1,1,true);
+  add(G.trimX,M.metal,.5,1.69,.56,1.95);
+  // Slim metal posts under the cantilever
+  add(G.post,M.metal,1.38,.57,.5,1,.86,1);add(G.post,M.metal,1.38,.57,-.9,1,.86,1);
+  // Terrace glass railing on the lower roof
+  add(G.rail,M.railGlass,-.75,1.12,.72,.95);
+  // Infinity pool on the front deck
+  add(G.poolRim,M.deck,-.55,.16,1.12);add(G.pool,M.pool,-.55,.19,1.12);
+  return g;
+}
+const villas=new THREE.Group();scene.add(villas);
+const members=[];
 function homePosition(n){const district=Math.floor(n/1667),local=n%1667;const cols=42,spacing=.85,row=Math.floor(local/cols),col=local%cols;const angle=district*Math.PI/3,r=13.8;let cx=Math.cos(angle)*r,cz=Math.sin(angle)*r*.78;return{x:cx-(cols-1)*spacing/2+col*spacing,y:3.5,z:cz-17+row*spacing}}
 const nf=new Intl.NumberFormat('en-US');let residentCount=0,homeCount=0;
 function stats(){document.querySelector('#members').textContent=nf.format(residentCount);document.querySelector('#homes').textContent=nf.format(homeCount)}
 const byHouseId=new Map();
-function addMember(name,p,houseId=null,ownerId=null){if(members.length>=MAX)return false;let i=members.length;dummy.position.set(p.x,p.y+.65,p.z);dummy.rotation.y=(i%4)*Math.PI/2;dummy.updateMatrix();bodies.setMatrixAt(i,dummy.matrix);bodies.setColorAt(i,new THREE.Color(colors[i%colors.length]));dummy.position.y=p.y+1.34;dummy.scale.set(1,1,1);dummy.updateMatrix();roofs.setMatrixAt(i,dummy.matrix);roofs.setColorAt(i,new THREE.Color([0x263b59,0x365b70,0x8a7257,0x596b8d][i%4]));members.push({name,position:p,houseId,ownerId});if(houseId)byHouseId.set(houseId,i);bodies.count=roofs.count=members.length;bodies.instanceMatrix.needsUpdate=roofs.instanceMatrix.needsUpdate=true;bodies.instanceColor.needsUpdate=roofs.instanceColor.needsUpdate=true;return true}
+function addMember(name,p,houseId=null,ownerId=null,opts={}){if(members.length>=MAX)return false;const i=members.length;const v=createVilla(opts.color,opts.model);v.position.set(p.x,p.y,p.z);v.rotation.y=Math.atan2(p.x,p.z);// front faces outward, towards the arriving camera
+v.userData.index=i;villas.add(v);members.push({name,position:p,houseId,ownerId,object:v});if(houseId)byHouseId.set(houseId,i);return true}
 function toast(s){let e=document.querySelector('#toast');e.textContent=s;e.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>e.classList.remove('show'),2800)}
 // ---- Visitor mode: data access (public read only, no auth) ----
 const HOUSE_FIELDS='id,owner_id,house_name,model,color,position_x,position_y,position_z,created_at,profiles!inner(username,created_at),districts(name,planets(name))';
@@ -165,10 +224,10 @@ const UUID_RE=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a
 const GROUND_Y=3.5;// AURELIA surface; homes stored below it (e.g. y=0) are lifted so they stay visible.
 const posOf=row=>({x:Number(row.position_x)||0,y:Math.max(Number(row.position_y)||0,GROUND_Y),z:Number(row.position_z)||0});
 async function loadHouses(){
-  const {data,error}=await supabase.from('houses').select('id,owner_id,house_name,position_x,position_y,position_z,created_at,profiles(username)').order('created_at',{ascending:true}).limit(MAX);
+  const {data,error}=await supabase.from('houses').select('id,owner_id,house_name,model,color,position_x,position_y,position_z,created_at,profiles(username)').order('created_at',{ascending:true}).limit(MAX);
   if(error){console.error(error);toast('Could not load homes: '+error.message);return;}
-  members.length=0;byHouseId.clear();bodies.count=roofs.count=0;
-  (data||[]).forEach(row=>addMember(row.profiles?.username||row.house_name,posOf(row),row.id,row.owner_id));
+  members.length=0;byHouseId.clear();villas.clear();
+  (data||[]).forEach(row=>addMember(row.profiles?.username||row.house_name,posOf(row),row.id,row.owner_id,{color:row.color,model:row.model}));
   residentCount=new Set(members.map(m=>m.ownerId).filter(Boolean)).size;homeCount=members.length;
   // Exact total from the database (the scene renders at most MAX homes).
   const {count,error:cErr}=await supabase.from('houses').select('id',{count:'exact'}).limit(1);
@@ -193,10 +252,10 @@ async function findPartial(name){
 }
 // ---- Camera flight + selected-home marker ----
 const marker=new THREE.Group();marker.visible=false;scene.add(marker);
-{const beam=new THREE.Mesh(new THREE.CylinderGeometry(.06,.06,7,8),new THREE.MeshBasicMaterial({color:0x8eeaff,transparent:true,opacity:.55}));beam.position.y=5.6;marker.add(beam);const halo=new THREE.Mesh(new THREE.TorusGeometry(1.25,.06,8,40),neon);halo.rotation.x=Math.PI/2;halo.position.y=.15;marker.add(halo);}
+{const beam=new THREE.Mesh(new THREE.CylinderGeometry(.06,.06,7,8),new THREE.MeshBasicMaterial({color:0x8eeaff,transparent:true,opacity:.55}));beam.position.y=6.4;marker.add(beam);const halo=new THREE.Mesh(new THREE.TorusGeometry(2.05,.06,8,48),neon);halo.rotation.x=Math.PI/2;halo.position.y=.15;marker.add(halo);const warm=new THREE.PointLight(0xffc98a,7,9,1.6);warm.position.set(0,2.6,1.6);marker.add(warm);}
 let fly=null;
-function viewFor(p){const target=new THREE.Vector3(p.x,p.y+(innerWidth<700?2.4:.9),p.z);// on phones aim a bit higher so the home sits below the resident card
-const off=new THREE.Vector3(p.x,0,p.z).normalize();if(!isFinite(off.x)||off.lengthSq()<.01)off.set(0,0,1);off.multiplyScalar(6.5);off.y=4;return{target,pos:target.clone().add(off)}}
+function viewFor(p){const target=new THREE.Vector3(p.x,p.y+(innerWidth<700?1.9:1.1),p.z);// on phones aim a bit higher so the home sits below the resident card
+const off=new THREE.Vector3(p.x,0,p.z).normalize();if(!isFinite(off.x)||off.lengthSq()<.01)off.set(0,0,1);const phone=innerWidth<700;off.multiplyScalar(phone?10:7.2);off.y=phone?6.2:4.2;return{target,pos:target.clone().add(off)}}
 function flyTo(p,instant=false){const v=viewFor(p);marker.position.set(p.x,p.y,p.z);marker.visible=true;
   if(instant){fly=null;camera.position.copy(v.pos);controls.target.copy(v.target);controls.update();return}
   fly={p0:camera.position.clone(),t0:controls.target.clone(),p1:v.pos,t1:v.target,start:performance.now(),dur:1700};}
@@ -216,7 +275,7 @@ function showCard(row){selected=row;const name=row.profiles?.username||'resident
   $('#cardJoined').textContent=fmtDate(row.profiles?.created_at||row.created_at);card.hidden=false}
 function closeCard(){card.hidden=true;selected=null;marker.visible=false}
 function setPath(path,mode){if(location.pathname===path)return;try{history[mode==='replace'?'replaceState':'pushState']({},'',path)}catch(e){console.warn(e)}}
-function ensureRendered(row){if(!byHouseId.has(row.id)&&addMember(row.profiles?.username||row.house_name,posOf(row),row.id,row.owner_id)){homeCount=Math.max(homeCount,members.length);stats()}}
+function ensureRendered(row){if(!byHouseId.has(row.id)&&addMember(row.profiles?.username||row.house_name,posOf(row),row.id,row.owner_id,{color:row.color,model:row.model})){homeCount=Math.max(homeCount,members.length);stats()}}
 function selectHouse(row,{push=true,instant=false}={}){ensureRendered(row);showCard(row);flyTo(posOf(row),instant);if(push)setPath('/house/'+row.id,'push')}
 $('#cardClose').onclick=()=>{closeCard();setPath('/','push')};
 $('#cardVisit').onclick=()=>{if(selected)flyTo(posOf(selected))};
@@ -225,7 +284,8 @@ $('#cardCopy').onclick=async()=>{if(!selected)return;const url=houseUrl(selected
 // ---- Find your home ----
 const searchMsg=$('#searchMsg'),sugBox=$('#suggestions');
 function clearSearchUI(){searchMsg.textContent='';sugBox.replaceChildren()}
-$('#searchForm').addEventListener('submit',async e=>{e.preventDefault();clearSearchUI();
+function clearSelection(){closeCard();if(location.pathname.startsWith('/house/'))setPath('/','push')}
+$('#searchForm').addEventListener('submit',async e=>{e.preventDefault();clearSearchUI();clearSelection();
   const name=normalizeUsername($('#search').value);if(!name){searchMsg.textContent='Type your social media username.';return}
   const btn=$('#find');btn.disabled=true;searchMsg.textContent='Searching AURELIA…';
   try{
@@ -250,7 +310,7 @@ async function routeFromPath({instant=false}={}){
 addEventListener('popstate',()=>routeFromPath());
 await loadHouses();
 await routeFromPath({instant:true});
-const ray=new THREE.Raycaster(),mouse=new THREE.Vector2();renderer.domElement.addEventListener('dblclick',async e=>{mouse.x=e.clientX/innerWidth*2-1;mouse.y=-(e.clientY/innerHeight)*2+1;ray.setFromCamera(mouse,camera);let hit=ray.intersectObject(bodies)[0];const m=hit&&members[hit.instanceId];if(!m)return;toast('NEBULA resident: @'+m.name);if(!m.houseId)return;const row=await fetchHouse(m.houseId);if(row)selectHouse(row);});
+const ray=new THREE.Raycaster(),mouse=new THREE.Vector2();renderer.domElement.addEventListener('dblclick',async e=>{mouse.x=e.clientX/innerWidth*2-1;mouse.y=-(e.clientY/innerHeight)*2+1;ray.setFromCamera(mouse,camera);const hit=ray.intersectObject(villas,true)[0];let o=hit&&hit.object;while(o&&o.userData.index===undefined)o=o.parent;const m=o&&members[o.userData.index];if(!m)return;toast('NEBULA resident: @'+m.name);if(!m.houseId)return;const row=await fetchHouse(m.houseId);if(row)selectHouse(row);});
 let running=true;document.querySelector('#pause').onclick=()=>{running=!running;toast(running?'Day/night cycle resumed.':'Time paused.')};document.querySelector('#reset').onclick=()=>{fly=null;camera.position.set(44,34,55);controls.target.set(0,5,0);controls.update()};
 const clock=new THREE.Clock();function animate(){requestAnimationFrame(animate);let t=clock.getElapsedTime(),day=running?(Math.sin(t*.025)+1)/2:.55;let night=new THREE.Color(0x080d26),daySky=new THREE.Color(0x91b8d0),sky=night.clone().lerp(daySky,day);scene.background.copy(sky);scene.fog.color.copy(sky);sun.intensity=.3+day*3;sun.color.set(0x849fe2).lerp(new THREE.Color(0xffe2bc),day);fill.intensity=35+day*70;stars.material.opacity=.95*(1-day*.88);orb.rotation.y=t*.012;obelisk.rotation.y=t*.18;obelisk.position.y=7+Math.sin(t)*.25;marker.rotation.y=t*.8;stepFly();controls.update();renderer.render(scene,camera)}animate();
 addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
