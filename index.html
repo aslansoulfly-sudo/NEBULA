@@ -1,6 +1,6 @@
 <!doctype html>
-<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NEBULA — Yaşayan Galaksiler</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NEBULA — Living Galaxies</title>
 <style>
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#070b1d;color:#fff;font-family:Inter,system-ui,Segoe UI,sans-serif}#world{position:fixed;inset:0}canvas{display:block}
 .panel{position:fixed;z-index:2;background:linear-gradient(135deg,#101b35e8,#12122be0);border:1px solid #9bdff055;backdrop-filter:blur(14px);border-radius:16px;padding:12px 15px;box-shadow:0 12px 40px #02061566}
@@ -16,27 +16,27 @@ button.secondary{background:#152541;border-color:#476681}
 @media(max-width:650px){#stats{top:auto;bottom:205px;right:12px;gap:10px}.stat b{font-size:16px}#hint{display:none}#brand{top:12px;left:12px}#tools{left:12px;bottom:12px}#zone{top:72px}}
 </style></head><body>
 <div id="world"></div>
-<header id="brand" class="panel"><h1>✦ NEBULA</h1><small>YAŞAYAN GALAKSİLER · AURELIA / SEKTÖR 01</small></header>
-<div id="zone">AURELIA · İLK YERLEŞİM BÖLGESİ</div>
-<section id="stats" class="panel"><div class="stat"><b id="members">0</b><small>Sakin</small></div><div class="stat"><b id="homes">0</b><small>Ev</small></div><div class="stat"><b>10K</b><small>Hedef</small></div></section>
+<header id="brand" class="panel"><h1>✦ NEBULA</h1><small>LIVING GALAXIES · AURELIA / SECTOR 01</small></header>
+<div id="zone">AURELIA · FIRST SETTLEMENT</div>
+<section id="stats" class="panel"><div class="stat"><b id="members">0</b><small>Residents</small></div><div class="stat"><b id="homes">0</b><small>Homes</small></div><div class="stat"><b>10K</b><small>Goal</small></div></section>
 <section id="tools" class="panel">
-<label>NEBULA hesabın</label>
-<input id="email" type="email" autocomplete="email" placeholder="E-posta adresin">
-<input id="password" type="password" autocomplete="current-password" placeholder="Şifre (en az 6 karakter)" style="margin-top:7px">
-<input id="username" maxlength="28" placeholder="NEBULA kullanıcı adın (kayıt olurken)" style="margin-top:7px">
-<button id="signup">Hesap oluştur</button><button class="secondary" id="login">Giriş yap</button><button class="secondary" id="logout" style="display:none">Çıkış yap</button>
-<div id="accountStatus" style="font-size:11px;color:#b9cce5;margin-top:6px">Ev oluşturmak için hesabına giriş yap.</div>
+<label>Your NEBULA account</label>
+<input id="email" type="email" autocomplete="email" placeholder="Your email">
+<input id="password" type="password" autocomplete="current-password" placeholder="Password (min. 6 characters)" style="margin-top:7px">
+<input id="username" maxlength="28" placeholder="Your NEBULA username (for sign-up)" style="margin-top:7px">
+<button id="signup">Create account</button><button class="secondary" id="login">Sign in</button><button class="secondary" id="logout" style="display:none">Sign out</button>
+<div id="accountStatus" style="font-size:11px;color:#b9cce5;margin-top:6px">Sign in to create your home.</div>
 <hr style="border:0;border-top:1px solid #9bdff055;margin:10px 0">
-<label for="username">AURELIA'daki evin</label>
-<button id="add">＋ Evimi oluştur</button><button class="secondary" id="pause">Zamanı duraklat</button><button class="secondary" id="reset">Kamerayı sıfırla</button></section>
-<aside id="hint" class="panel">Sürükle: kamerayı döndür · Tekerlek: yaklaş/uzaklaş · Sağ tuş: kaydır<br>Bir eve çift tıkla: ev sahibini gör</aside><div id="toast"></div>
+<label for="username">Your home on AURELIA</label>
+<button id="add">＋ Create my home</button><button class="secondary" id="pause">Pause time</button><button class="secondary" id="reset">Reset camera</button></section>
+<aside id="hint" class="panel">Drag: rotate camera · Wheel: zoom · Right-click: pan<br>Double-click a home: see its owner</aside><div id="toast"></div>
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from './supabase-config.js';
 import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
 if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY || SUPABASE_URL.includes('YOUR_') || SUPABASE_PUBLISHABLE_KEY.includes('YOUR_')) {
-  alert('Önce supabase-config.js dosyasına Project URL ve Publishable key bilgilerini ekleyin.');
+  alert('Add your Supabase Project URL and Publishable key to supabase-config.js first.');
 }
 const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 let currentSession = null;
@@ -87,49 +87,49 @@ function addMember(name,p,houseId=null){if(members.length>=MAX)return false;let 
 function toast(s){let e=document.querySelector('#toast');e.textContent=s;e.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>e.classList.remove('show'),2300)}
 const emailInput=document.querySelector('#email'),passwordInput=document.querySelector('#password'),usernameInput=document.querySelector('#username');
 const accountStatus=document.querySelector('#accountStatus');
-function setAccountUI(session){currentSession=session;document.querySelector('#logout').style.display=session?'inline-block':'none';document.querySelector('#signup').style.display=session?'none':'inline-block';document.querySelector('#login').style.display=session?'none':'inline-block';accountStatus.textContent=session?'Giriş yapıldı: '+(session.user.email||'NEBULA sakini'):'Ev oluşturmak için hesabına giriş yap.';}
+function setAccountUI(session){currentSession=session;document.querySelector('#logout').style.display=session?'inline-block':'none';document.querySelector('#signup').style.display=session?'none':'inline-block';document.querySelector('#login').style.display=session?'none':'inline-block';accountStatus.textContent=session?'Signed in: '+(session.user.email||'NEBULA sakini'):'Sign in to create your home.';}
 async function loadHouses(){
   const {data,error}=await supabase.from('houses').select('id,owner_id,house_name,position_x,position_y,position_z,created_at,profiles(username)').order('created_at',{ascending:true}).limit(MAX);
-  if(error){console.error(error);toast('Evler yüklenemedi: '+error.message);return;}
+  if(error){console.error(error);toast('Could not load homes: '+error.message);return;}
   members.length=0;bodies.count=roofs.count=0;
   (data||[]).forEach(row=>addMember(row.profiles?.username||row.house_name,{x:row.position_x,y:row.position_y,z:row.position_z},row.id));
   stats();
 }
 document.querySelector('#signup').onclick=async()=>{
   const email=emailInput.value.trim(),password=passwordInput.value,name=usernameInput.value.trim().replace(/^@/,'').toLowerCase();
-  if(!email||!password||!name)return toast('E-posta, şifre ve kullanıcı adını doldur.');
-  if(password.length<6)return toast('Şifre en az 6 karakter olmalı.');
-  if(!/^[a-z0-9_.-]{3,28}$/.test(name))return toast('Kullanıcı adı 3-28 karakter olmalı; harf, rakam, _, . veya - kullan.');
+  if(!email||!password||!name)return toast('Please fill in email, password and username.');
+  if(password.length<6)return toast('Password must be at least 6 characters.');
+  if(!/^[a-z0-9_.-]{3,28}$/.test(name))return toast('Username must be 3-28 characters: letters, numbers, _, . or -.');
   const {data,error}=await supabase.auth.signUp({email,password,options:{data:{username:name}}});
-  if(error)return toast('Kayıt hatası: '+error.message);
-  if(data.session){setAccountUI(data.session);await loadHouses();toast('NEBULA hesabın oluşturuldu!');}
-  else toast('Kayıt alındı. E-postanı doğrula, sonra giriş yap.');
+  if(error)return toast('Sign-up error: '+error.message);
+  if(data.session){setAccountUI(data.session);await loadHouses();toast('Your NEBULA account has been created!');}
+  else toast('Almost there! Confirm your email, then sign in.');
 };
 document.querySelector('#login').onclick=async()=>{
   const {data,error}=await supabase.auth.signInWithPassword({email:emailInput.value.trim(),password:passwordInput.value});
-  if(error)return toast('Giriş hatası: '+error.message);
-  setAccountUI(data.session);await loadHouses();toast('NEBULA’ya hoş geldin!');
+  if(error)return toast('Sign-in error: '+error.message);
+  setAccountUI(data.session);await loadHouses();toast('Welcome to NEBULA!');
 };
-document.querySelector('#logout').onclick=async()=>{const {error}=await supabase.auth.signOut();if(error)return toast(error.message);setAccountUI(null);toast('Oturum kapatıldı.');};
+document.querySelector('#logout').onclick=async()=>{const {error}=await supabase.auth.signOut();if(error)return toast(error.message);setAccountUI(null);toast('Signed out.');};
 supabase.auth.onAuthStateChange((_event,session)=>{setAccountUI(session);if(session)queueMicrotask(()=>loadHouses());});
 const {data:{session:initialSession}}=await supabase.auth.getSession();setAccountUI(initialSession);await loadHouses();
 document.querySelector('#add').onclick=async()=>{
-  if(!currentSession)return toast('Önce NEBULA hesabına giriş yap.');
+  if(!currentSession)return toast('Please sign in to your NEBULA account first.');
   const {data:profile,error:profileError}=await supabase.from('profiles').select('username').eq('id',currentSession.user.id).single();
-  if(profileError)return toast('Profil bulunamadı: '+profileError.message);
+  if(profileError)return toast('Profile not found: '+profileError.message);
   const {data:existing,error:existingError}=await supabase.from('houses').select('id').eq('owner_id',currentSession.user.id).limit(1);
-  if(existingError)return toast('Kontrol hatası: '+existingError.message);
-  if(existing?.length)return toast('Zaten bir NEBULA evin var.');
-  if(members.length>=MAX)return toast('10.000 kişilik yerleşim kapasitesine ulaşıldı.');
+  if(existingError)return toast('Check failed: '+existingError.message);
+  if(existing?.length)return toast('You already have a NEBULA home.');
+  if(members.length>=MAX)return toast('The 10,000-resident capacity has been reached.');
   const {data:districts,error:districtError}=await supabase.from('districts').select('id').limit(1);
-  if(districtError||!districts?.length)return toast('AURELIA bölgesi bulunamadı.');
+  if(districtError||!districts?.length)return toast('AURELIA district not found.');
   const p=homePosition(members.length);
   const {data:house,error}=await supabase.from('houses').insert({owner_id:currentSession.user.id,district_id:districts[0].id,house_name:profile.username+' House',model:'luxury_white',color:'#FFFFFF',position_x:p.x,position_y:p.y,position_z:p.z}).select('id').single();
-  if(error)return toast('Ev kaydedilemedi: '+error.message);
-  addMember(profile.username,p,house.id);usernameInput.value='';toast('@'+profile.username+' için evin ortak AURELIA dünyasına kaydedildi!');
+  if(error)return toast('Could not save your home: '+error.message);
+  addMember(profile.username,p,house.id);usernameInput.value='';toast('@'+profile.username+'\u2019s home has been added to the shared AURELIA world!');
 };
-const ray=new THREE.Raycaster(),mouse=new THREE.Vector2();renderer.domElement.addEventListener('dblclick',e=>{mouse.x=e.clientX/innerWidth*2-1;mouse.y=-(e.clientY/innerHeight)*2+1;ray.setFromCamera(mouse,camera);let hit=ray.intersectObject(bodies)[0];if(hit&&members[hit.instanceId])toast('NEBULA sakini: @'+members[hit.instanceId].name)});
-let running=true;document.querySelector('#pause').onclick=()=>{running=!running;toast(running?'Gündüz/gece döngüsü başladı.':'Zaman duraklatıldı.')};document.querySelector('#reset').onclick=()=>{camera.position.set(44,34,55);controls.target.set(0,5,0);controls.update()};
+const ray=new THREE.Raycaster(),mouse=new THREE.Vector2();renderer.domElement.addEventListener('dblclick',e=>{mouse.x=e.clientX/innerWidth*2-1;mouse.y=-(e.clientY/innerHeight)*2+1;ray.setFromCamera(mouse,camera);let hit=ray.intersectObject(bodies)[0];if(hit&&members[hit.instanceId])toast('NEBULA resident: @'+members[hit.instanceId].name)});
+let running=true;document.querySelector('#pause').onclick=()=>{running=!running;toast(running?'Day/night cycle resumed.':'Time paused.')};document.querySelector('#reset').onclick=()=>{camera.position.set(44,34,55);controls.target.set(0,5,0);controls.update()};
 const clock=new THREE.Clock();function animate(){requestAnimationFrame(animate);let t=clock.getElapsedTime(),day=running?(Math.sin(t*.025)+1)/2:.55;let night=new THREE.Color(0x080d26),daySky=new THREE.Color(0x91b8d0),sky=night.clone().lerp(daySky,day);scene.background.copy(sky);scene.fog.color.copy(sky);sun.intensity=.3+day*3;sun.color.set(0x849fe2).lerp(new THREE.Color(0xffe2bc),day);fill.intensity=35+day*70;stars.material.opacity=.95*(1-day*.88);orb.rotation.y=t*.012;obelisk.rotation.y=t*.18;obelisk.position.y=7+Math.sin(t)*.25;controls.update();renderer.render(scene,camera)}animate();
 addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
 </script></body></html>
