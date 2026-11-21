@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NEBULA — Yaşayan Galaksiler</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#070b1d;color:#fff;font-family:Inter,system-ui,Segoe UI,sans-serif}#world{position:fixed;inset:0}canvas{display:block}
+.panel{position:fixed;z-index:2;background:linear-gradient(135deg,#101b35e8,#12122be0);border:1px solid #9bdff055;backdrop-filter:blur(14px);border-radius:16px;padding:12px 15px;box-shadow:0 12px 40px #02061566}
+#brand{top:14px;left:14px;max-width:min(420px,calc(100vw - 28px))}h1{font-size:22px;letter-spacing:.16em;margin:0 0 3px;color:#d9f7ff}small{color:#b9cce5}
+#stats{top:14px;right:14px;display:flex;gap:17px;text-align:center}.stat b{display:block;color:#8eeaff;font-size:20px}.stat small{font-size:10px;text-transform:uppercase;letter-spacing:.08em}
+#tools{left:14px;bottom:14px;width:min(355px,calc(100vw - 28px));max-height:76vh;overflow:auto}label{display:block;font-size:12px;color:#c3d9ef;margin-bottom:6px}
+input{width:100%;padding:11px;border-radius:10px;border:1px solid #568da9;background:#081329;color:white;outline:none}
+button{margin:8px 5px 0 0;padding:9px 12px;border:1px solid #83d9ed;border-radius:10px;background:linear-gradient(135deg,#216c87,#554c91);color:#fff;font-weight:650;cursor:pointer}
+button.secondary{background:#152541;border-color:#476681}
+#hint{right:14px;bottom:14px;max-width:260px;font-size:12px;line-height:1.5;color:#c3d9ef}
+#toast{position:fixed;z-index:4;top:90px;left:50%;transform:translateX(-50%);background:#132847;border:1px solid #8ccde6;border-radius:30px;padding:10px 15px;opacity:0;transition:.2s;pointer-events:none}#toast.show{opacity:1}
+#zone{position:fixed;z-index:2;top:82px;left:14px;color:#d5f7ff;font-size:11px;letter-spacing:.13em;text-shadow:0 2px 8px #001}
+@media(max-width:650px){#stats{top:auto;bottom:205px;right:12px;gap:10px}.stat b{font-size:16px}#hint{display:none}#brand{top:12px;left:12px}#tools{left:12px;bottom:12px}#zone{top:72px}}
+</style></head><body>
+<div id="world"></div>
+<header id="brand" class="panel"><h1>✦ NEBULA</h1><small>YAŞAYAN GALAKSİLER · AURELIA / SEKTÖR 01</small></header>
+<div id="zone">AURELIA · İLK YERLEŞİM BÖLGESİ</div>
+<section id="stats" class="panel"><div class="stat"><b id="members">0</b><small>Sakin</small></div><div class="stat"><b id="homes">0</b><small>Ev</small></div><div class="stat"><b>10K</b><small>Hedef</small></div></section>
+<section id="tools" class="panel">
+<label>NEBULA hesabın</label>
+<input id="email" type="email" autocomplete="email" placeholder="E-posta adresin">
+<input id="password" type="password" autocomplete="current-password" placeholder="Şifre (en az 6 karakter)" style="margin-top:7px">
+<input id="username" maxlength="28" placeholder="NEBULA kullanıcı adın (kayıt olurken)" style="margin-top:7px">
+<button id="signup">Hesap oluştur</button><button class="secondary" id="login">Giriş yap</button><button class="secondary" id="logout" style="display:none">Çıkış yap</button>
+<div id="accountStatus" style="font-size:11px;color:#b9cce5;margin-top:6px">Ev oluşturmak için hesabına giriş yap.</div>
+<hr style="border:0;border-top:1px solid #9bdff055;margin:10px 0">
+<label for="username">AURELIA'daki evin</label>
+<button id="add">＋ Evimi oluştur</button><button class="secondary" id="pause">Zamanı duraklat</button><button class="secondary" id="reset">Kamerayı sıfırla</button></section>
+<aside id="hint" class="panel">Sürükle: kamerayı döndür · Tekerlek: yaklaş/uzaklaş · Sağ tuş: kaydır<br>Bir eve çift tıkla: ev sahibini gör</aside><div id="toast"></div>
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from './supabase-config.js';
+import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY || SUPABASE_URL.includes('YOUR_') || SUPABASE_PUBLISHABLE_KEY.includes('YOUR_')) {
+  alert('Önce supabase-config.js dosyasına Project URL ve Publishable key bilgilerini ekleyin.');
+}
+const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+let currentSession = null;
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x7895b5);scene.fog=new THREE.FogExp2(0x829cb9,.0034);
+const camera=new THREE.PerspectiveCamera(48,innerWidth/innerHeight,.1,1400);camera.position.set(44,34,55);
+const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;document.querySelector('#world').appendChild(renderer.domElement);
+const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.055;controls.minDistance=13;controls.maxDistance=250;controls.maxPolarAngle=Math.PI*.49;controls.target.set(0,5,0);
+scene.add(new THREE.HemisphereLight(0xd9f2ff,0x263047,2));
+const sun=new THREE.DirectionalLight(0xffe2bd,3);sun.position.set(-60,80,40);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);scene.add(sun);
+const fill=new THREE.PointLight(0x55cfff,100,180);fill.position.set(24,35,-25);scene.add(fill);
+const mat=(c,r=.75,m=0)=>new THREE.MeshStandardMaterial({color:c,roughness:r,metalness:m});
+const land=mat(0x486c69),landTop=mat(0x6e9a7c),stone=mat(0x627987),white=mat(0xe8f0f0,.3,.25),glass=new THREE.MeshPhysicalMaterial({color:0x91dff1,metalness:.18,roughness:.12,transparent:true,opacity:.48,transmission:.25}),gold=mat(0xc9ad72,.3,.55),water=new THREE.MeshStandardMaterial({color:0x35c9e6,emissive:0x087a9b,emissiveIntensity:.5,transparent:true,opacity:.78,roughness:.18}),neon=new THREE.MeshStandardMaterial({color:0x83eaff,emissive:0x1aaed8,emissiveIntensity:2});
+const planet=new THREE.Group();scene.add(planet);
+// Main island continent: broad sculpted platform with layered rocky underside.
+const base=new THREE.Mesh(new THREE.CylinderGeometry(25,20,7,48),land);base.position.y=-1.2;base.scale.z=.83;base.castShadow=true;base.receiveShadow=true;planet.add(base);
+const underside=new THREE.Mesh(new THREE.ConeGeometry(20,18,32),stone);underside.position.y=-13;base.scale.z=.83;underside.scale.z=.83;planet.add(underside);
+const surface=new THREE.Mesh(new THREE.CylinderGeometry(25.2,24.8,1.25,48),landTop);surface.position.y=2.35;surface.scale.z=.83;surface.receiveShadow=true;planet.add(surface);
+// Lagoon, river, waterfalls
+const lagoon=new THREE.Mesh(new THREE.CircleGeometry(7,48),water);lagoon.rotation.x=-Math.PI/2;lagoon.position.set(-5,3.02,4);planet.add(lagoon);
+const river=new THREE.Mesh(new THREE.BoxGeometry(3.2,.12,25),water);river.position.set(7,3.02,-3);river.rotation.y=.2;planet.add(river);
+for(let i=0;i<9;i++){let x=-19+i*4.7;let f=new THREE.Mesh(new THREE.PlaneGeometry(2.5,33),water);f.position.set(x,-15,-1);planet.add(f)}
+// District pads and elegant arrival plaza.
+const padMat=mat(0xd1c8ae,.6),pathMat=mat(0xc7d4cf,.7);
+for(let i=0;i<6;i++){let a=i*Math.PI/3,r=16,x=Math.cos(a)*r,z=Math.sin(a)*r*.78;let p=new THREE.Mesh(new THREE.CylinderGeometry(5.2,5.5,.4,24),padMat);p.position.set(x,3.1,z);planet.add(p);let ring=new THREE.Mesh(new THREE.TorusGeometry(5.1,.09,8,48),neon);ring.rotation.x=Math.PI/2;ring.position.set(x,3.4,z);planet.add(ring)}
+const plaza=new THREE.Mesh(new THREE.CylinderGeometry(5,5,.35,48),white);plaza.position.set(0,3.2,0);planet.add(plaza);
+const obelisk=new THREE.Mesh(new THREE.OctahedronGeometry(2.1),neon);obelisk.position.set(0,7,0);obelisk.scale.y=2;planet.add(obelisk);
+// Landmark towers: glass/white luxury architecture.
+function tower(x,z,h=13,r=1.2){let stem=new THREE.Mesh(new THREE.CylinderGeometry(r*.8,r,h,12),white);stem.position.set(x,3.5+h/2,z);stem.castShadow=true;planet.add(stem);let cap=new THREE.Mesh(new THREE.SphereGeometry(r*1.45,16,10),glass);cap.position.set(x,3.5+h,z);planet.add(cap);let halo=new THREE.Mesh(new THREE.TorusGeometry(r*1.6,.08,8,32),gold);halo.position.set(x,3.5+h,z);halo.rotation.x=Math.PI/2;planet.add(halo)}
+tower(-9,-12,18,1.4);tower(10,-14,23,1.5);tower(17,7,15,1.1);tower(-18,7,14,1.2);
+// Waterfall cliffs and elevated garden islands around AURELIA.
+const islands=[];
+function floatingIsland(x,y,z,s){let g=new THREE.Group();g.position.set(x,y,z);scene.add(g);let b=new THREE.Mesh(new THREE.CylinderGeometry(s,s*.65,3,12),stone);b.position.y=0;g.add(b);let top=new THREE.Mesh(new THREE.CylinderGeometry(s*1.02,s,.45,12),landTop);top.position.y=1.7;g.add(top);let fall=new THREE.Mesh(new THREE.PlaneGeometry(s*.5,12+s),water);fall.position.set(-s*.3,-6,0);g.add(fall);islands.push(g);return g}
+floatingIsland(-34,12,-24,8);floatingIsland(34,15,-28,9);floatingIsland(38,9,20,10);floatingIsland(-35,13,26,9);floatingIsland(0,23,-49,7);
+function bridge(a,b){let p=new THREE.Vector3(...a),q=new THREE.Vector3(...b),m=p.clone().add(q).multiplyScalar(.5),d=p.distanceTo(q);let deck=new THREE.Mesh(new THREE.BoxGeometry(2,.28,d),white);deck.position.copy(m);deck.position.y+=1;deck.lookAt(q);deck.rotateY(Math.PI);scene.add(deck)}
+bridge([-18,3,-10],[-34,12,-24]);bridge([18,3,-10],[34,15,-28]);bridge([19,3,10],[38,9,20]);bridge([-18,3,12],[-35,13,26]);
+// Ringed planet in the sky.
+const orb=new THREE.Group();scene.add(orb);const sphere=new THREE.Mesh(new THREE.SphereGeometry(8,40,32),mat(0x8a9dc4,.8));orb.add(sphere);const ring=new THREE.Mesh(new THREE.RingGeometry(10,15,96),new THREE.MeshStandardMaterial({color:0xd5c6a4,side:THREE.DoubleSide,transparent:true,opacity:.72,roughness:.6}));ring.rotation.x=Math.PI/2.45;orb.add(ring);orb.position.set(-62,44,-105);
+// Distant planets and nebula clouds.
+for(let i=0;i<4;i++){let p=new THREE.Mesh(new THREE.SphereGeometry(2+i*.8,24,18),mat([0x7f8ebd,0x9873a9,0x5e9d9c,0xc08a69][i]));p.position.set(75+i*32,25+i*7,-90-i*20);scene.add(p)}
+const starGeo=new THREE.BufferGeometry(),coords=[];for(let i=0;i<1600;i++)coords.push((Math.random()-.5)*900,Math.random()*380-80,(Math.random()-.5)*900);starGeo.setAttribute('position',new THREE.Float32BufferAttribute(coords,3));const stars=new THREE.Points(starGeo,new THREE.PointsMaterial({color:0xdff7ff,size:.65,transparent:true,opacity:.9}));scene.add(stars);
+// Luxury resident homes: shared geometry with individually varied finishes, instanced for scale.
+const MAX=10000,bodyGeo=new THREE.BoxGeometry(1.55,1.2,1.45),roofGeo=new THREE.BoxGeometry(1.8,.18,1.7),accentGeo=new THREE.BoxGeometry(.12,.65,.08);
+const bodies=new THREE.InstancedMesh(bodyGeo,new THREE.MeshStandardMaterial({color:0xffffff,roughness:.32,metalness:.12}),MAX),roofs=new THREE.InstancedMesh(roofGeo,new THREE.MeshStandardMaterial({color:0xffffff,roughness:.3,metalness:.2}),MAX);scene.add(bodies,roofs);bodies.castShadow=roofs.castShadow=true;
+const dummy=new THREE.Object3D(),colors=[0xe8f0f0,0xd8e6ef,0xe7d5b8,0xb8d8d7,0xd5c8ed,0xc7dfc6,0xe4c5c0,0xb8c9e6],members=[];
+function homePosition(n){const district=Math.floor(n/1667),local=n%1667;const cols=42,spacing=.85,row=Math.floor(local/cols),col=local%cols;const angle=district*Math.PI/3,r=13.8;let cx=Math.cos(angle)*r,cz=Math.sin(angle)*r*.78;return{x:cx-(cols-1)*spacing/2+col*spacing,y:3.5,z:cz-17+row*spacing}}
+function stats(){document.querySelector('#members').textContent=members.length.toLocaleString('tr-TR');document.querySelector('#homes').textContent=members.length.toLocaleString('tr-TR')}
+function addMember(name,p,houseId=null){if(members.length>=MAX)return false;let i=members.length;dummy.position.set(p.x,p.y+.65,p.z);dummy.rotation.y=(i%4)*Math.PI/2;dummy.updateMatrix();bodies.setMatrixAt(i,dummy.matrix);bodies.setColorAt(i,new THREE.Color(colors[i%colors.length]));dummy.position.y=p.y+1.34;dummy.scale.set(1,1,1);dummy.updateMatrix();roofs.setMatrixAt(i,dummy.matrix);roofs.setColorAt(i,new THREE.Color([0x263b59,0x365b70,0x8a7257,0x596b8d][i%4]));members.push({name,position:p,houseId});bodies.count=roofs.count=members.length;bodies.instanceMatrix.needsUpdate=roofs.instanceMatrix.needsUpdate=true;bodies.instanceColor.needsUpdate=roofs.instanceColor.needsUpdate=true;stats();return true}
+function toast(s){let e=document.querySelector('#toast');e.textContent=s;e.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>e.classList.remove('show'),2300)}
+const emailInput=document.querySelector('#email'),passwordInput=document.querySelector('#password'),usernameInput=document.querySelector('#username');
+const accountStatus=document.querySelector('#accountStatus');
+function setAccountUI(session){currentSession=session;document.querySelector('#logout').style.display=session?'inline-block':'none';document.querySelector('#signup').style.display=session?'none':'inline-block';document.querySelector('#login').style.display=session?'none':'inline-block';accountStatus.textContent=session?'Giriş yapıldı: '+(session.user.email||'NEBULA sakini'):'Ev oluşturmak için hesabına giriş yap.';}
+async function loadHouses(){
+  const {data,error}=await supabase.from('houses').select('id,owner_id,house_name,position_x,position_y,position_z,created_at,profiles(username)').order('created_at',{ascending:true}).limit(MAX);
+  if(error){console.error(error);toast('Evler yüklenemedi: '+error.message);return;}
+  members.length=0;bodies.count=roofs.count=0;
+  (data||[]).forEach(row=>addMember(row.profiles?.username||row.house_name,{x:row.position_x,y:row.position_y,z:row.position_z},row.id));
+  stats();
+}
+document.querySelector('#signup').onclick=async()=>{
+  const email=emailInput.value.trim(),password=passwordInput.value,name=usernameInput.value.trim().replace(/^@/,'').toLowerCase();
+  if(!email||!password||!name)return toast('E-posta, şifre ve kullanıcı adını doldur.');
+  if(password.length<6)return toast('Şifre en az 6 karakter olmalı.');
+  if(!/^[a-z0-9_.-]{3,28}$/.test(name))return toast('Kullanıcı adı 3-28 karakter olmalı; harf, rakam, _, . veya - kullan.');
+  const {data,error}=await supabase.auth.signUp({email,password,options:{data:{username:name}}});
+  if(error)return toast('Kayıt hatası: '+error.message);
+  if(data.session){setAccountUI(data.session);await loadHouses();toast('NEBULA hesabın oluşturuldu!');}
+  else toast('Kayıt alındı. E-postanı doğrula, sonra giriş yap.');
+};
+document.querySelector('#login').onclick=async()=>{
+  const {data,error}=await supabase.auth.signInWithPassword({email:emailInput.value.trim(),password:passwordInput.value});
+  if(error)return toast('Giriş hatası: '+error.message);
+  setAccountUI(data.session);await loadHouses();toast('NEBULA’ya hoş geldin!');
+};
+document.querySelector('#logout').onclick=async()=>{const {error}=await supabase.auth.signOut();if(error)return toast(error.message);setAccountUI(null);toast('Oturum kapatıldı.');};
+supabase.auth.onAuthStateChange((_event,session)=>{setAccountUI(session);if(session)queueMicrotask(()=>loadHouses());});
+const {data:{session:initialSession}}=await supabase.auth.getSession();setAccountUI(initialSession);await loadHouses();
+document.querySelector('#add').onclick=async()=>{
+  if(!currentSession)return toast('Önce NEBULA hesabına giriş yap.');
+  const {data:profile,error:profileError}=await supabase.from('profiles').select('username').eq('id',currentSession.user.id).single();
+  if(profileError)return toast('Profil bulunamadı: '+profileError.message);
+  const {data:existing,error:existingError}=await supabase.from('houses').select('id').eq('owner_id',currentSession.user.id).limit(1);
+  if(existingError)return toast('Kontrol hatası: '+existingError.message);
+  if(existing?.length)return toast('Zaten bir NEBULA evin var.');
+  if(members.length>=MAX)return toast('10.000 kişilik yerleşim kapasitesine ulaşıldı.');
+  const {data:districts,error:districtError}=await supabase.from('districts').select('id').limit(1);
+  if(districtError||!districts?.length)return toast('AURELIA bölgesi bulunamadı.');
+  const p=homePosition(members.length);
+  const {data:house,error}=await supabase.from('houses').insert({owner_id:currentSession.user.id,district_id:districts[0].id,house_name:profile.username+' House',model:'luxury_white',color:'#FFFFFF',position_x:p.x,position_y:p.y,position_z:p.z}).select('id').single();
+  if(error)return toast('Ev kaydedilemedi: '+error.message);
+  addMember(profile.username,p,house.id);usernameInput.value='';toast('@'+profile.username+' için evin ortak AURELIA dünyasına kaydedildi!');
+};
+const ray=new THREE.Raycaster(),mouse=new THREE.Vector2();renderer.domElement.addEventListener('dblclick',e=>{mouse.x=e.clientX/innerWidth*2-1;mouse.y=-(e.clientY/innerHeight)*2+1;ray.setFromCamera(mouse,camera);let hit=ray.intersectObject(bodies)[0];if(hit&&members[hit.instanceId])toast('NEBULA sakini: @'+members[hit.instanceId].name)});
+let running=true;document.querySelector('#pause').onclick=()=>{running=!running;toast(running?'Gündüz/gece döngüsü başladı.':'Zaman duraklatıldı.')};document.querySelector('#reset').onclick=()=>{camera.position.set(44,34,55);controls.target.set(0,5,0);controls.update()};
+const clock=new THREE.Clock();function animate(){requestAnimationFrame(animate);let t=clock.getElapsedTime(),day=running?(Math.sin(t*.025)+1)/2:.55;let night=new THREE.Color(0x080d26),daySky=new THREE.Color(0x91b8d0),sky=night.clone().lerp(daySky,day);scene.background.copy(sky);scene.fog.color.copy(sky);sun.intensity=.3+day*3;sun.color.set(0x849fe2).lerp(new THREE.Color(0xffe2bc),day);fill.intensity=35+day*70;stars.material.opacity=.95*(1-day*.88);orb.rotation.y=t*.012;obelisk.rotation.y=t*.18;obelisk.position.y=7+Math.sin(t)*.25;controls.update();renderer.render(scene,camera)}animate();
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+</script></body></html>
