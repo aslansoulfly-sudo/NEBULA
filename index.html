@@ -1,49 +1,121 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="data:,">
 <title>NEBULA — Living Galaxies</title>
+<meta name="description" content="NEBULA: a living 3D galaxy built by its community. Find your home on AURELIA, the first inhabited planet.">
+<meta name="theme-color" content="#06101f">
+<meta property="og:title" content="NEBULA · Your home among the stars"><meta property="og:description" content="Explore AURELIA, a living 3D galaxy. Find your home by your social media username."><meta property="og:image" content="/assets/aurelia-1.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>if(/^\/house\//.test(location.pathname))document.documentElement.classList.add('deeplink');</script>
 <style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#070b1d;color:#fff;font-family:Inter,system-ui,Segoe UI,sans-serif}#world{position:fixed;inset:0}canvas{display:block}
-.panel{position:fixed;z-index:2;background:linear-gradient(135deg,#101b35e8,#12122be0);border:1px solid #9bdff055;backdrop-filter:blur(14px);border-radius:16px;padding:12px 15px;box-shadow:0 12px 40px #02061566}
-#brand{top:14px;left:14px;max-width:min(420px,calc(100vw - 28px))}h1{font-size:22px;letter-spacing:.16em;margin:0 0 3px;color:#d9f7ff}small{color:#b9cce5}
-#stats{top:14px;right:14px;display:flex;gap:17px;text-align:center}.stat b{display:block;color:#8eeaff;font-size:20px}.stat small{font-size:10px;text-transform:uppercase;letter-spacing:.08em}
-#tools{left:14px;bottom:14px;width:min(355px,calc(100vw - 28px));max-height:76vh;overflow:auto}label{display:block;font-size:12px;color:#c3d9ef;margin-bottom:6px}
-input{width:100%;padding:11px;border-radius:10px;border:1px solid #568da9;background:#081329;color:white;outline:none}
-button{margin:8px 5px 0 0;padding:9px 12px;border:1px solid #83d9ed;border-radius:10px;background:linear-gradient(135deg,#216c87,#554c91);color:#fff;font-weight:650;cursor:pointer}
-button.secondary{background:#152541;border-color:#476681}
-#hint{right:14px;bottom:14px;max-width:260px;font-size:12px;line-height:1.5;color:#c3d9ef}
-#toast{position:fixed;z-index:4;top:90px;left:50%;transform:translateX(-50%);background:#132847;border:1px solid #8ccde6;border-radius:30px;padding:10px 15px;opacity:0;transition:.2s;pointer-events:none}#toast.show{opacity:1}
-#zone{position:fixed;z-index:2;top:82px;left:14px;color:#d5f7ff;font-size:11px;letter-spacing:.13em;text-shadow:0 2px 8px #001}
-@media(max-width:650px){#stats{top:auto;bottom:205px;right:12px;gap:10px}.stat b{font-size:16px}#hint{display:none}#brand{top:12px;left:12px}#tools{left:12px;bottom:12px}#zone{top:72px}}
+:root{--ink:#eaf9ff;--muted:#a9c3d6;--dim:#7f9ab0;--teal:#5ff2e6;--cyan:#8eeaff;--violet:#a98bff;--glass:linear-gradient(140deg,rgba(255,255,255,.13),rgba(150,220,255,.05) 45%,rgba(20,24,60,.28));--edge:rgba(190,240,255,.28);--r:20px;--head:'Orbitron','Space Grotesk',system-ui,sans-serif;--body:'Space Grotesk','Inter',system-ui,'Segoe UI',sans-serif}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050915;color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased}#world{position:fixed;inset:0}canvas{display:block}
+#world::after{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(3,6,20,.55))}
+.panel{position:fixed;z-index:2;background:var(--glass);background-color:rgba(9,18,40,.52);border:1px solid var(--edge);-webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);border-radius:var(--r);padding:14px 16px;box-shadow:0 18px 50px rgba(2,6,21,.45),inset 0 1px 0 rgba(255,255,255,.18);animation:rise .7s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes shimmer{to{background-position:200% center}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(95,242,230,.45),0 8px 24px rgba(40,190,210,.3)}50%{box-shadow:0 0 0 7px rgba(95,242,230,0),0 8px 24px rgba(40,190,210,.3)}}
+.logo{font-family:var(--head);font-weight:800;letter-spacing:.28em;margin:0;background:linear-gradient(90deg,#fff,#bdf8ff 30%,var(--teal) 50%,#d8c9ff 70%,#fff);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 8s linear infinite}
+.eyebrow{font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--cyan)}
+#brand{top:16px;left:16px;padding:12px 18px;max-width:min(420px,calc(100vw - 32px))}#brand .logo{font-size:22px}#brand .tag{font-size:12.5px;color:var(--muted);margin-top:3px}
+#stats{top:16px;right:16px;display:flex;gap:6px;padding:8px;animation-delay:.08s}.stat{min-width:74px;padding:6px 10px;border-radius:14px;text-align:center;background:rgba(255,255,255,.05)}.stat b{display:block;font-family:var(--head);color:var(--cyan);font-size:19px;font-weight:700}.stat small{font-size:9.5px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+#tools{left:16px;bottom:16px;width:min(380px,calc(100vw - 32px));max-height:72vh;overflow:auto;animation-delay:.14s}
+#tools .ttl{font-family:var(--head);font-size:13px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 9px;color:#dff9ff}
+.searchbar{display:flex;gap:8px;align-items:center;padding:5px;border-radius:16px;background:rgba(3,10,26,.55);border:1px solid rgba(142,234,255,.35);transition:.25s}.searchbar:focus-within{border-color:var(--teal);box-shadow:0 0 0 4px rgba(95,242,230,.14)}
+.searchbar .at{padding-left:8px;color:var(--teal);font-weight:700}
+input{width:100%;min-width:0;padding:10px 4px;border:0;background:transparent;color:#fff;outline:none;font:500 15px var(--body)}input::placeholder{color:#7e98ad}
+button{margin:9px 6px 0 0;padding:10px 15px;border:1px solid rgba(190,250,255,.55);border-radius:12px;background:linear-gradient(135deg,#1fb8c4,#3a86d6 55%,#7a68e0);color:#fff;font:600 13.5px var(--body);letter-spacing:.02em;cursor:pointer;transition:transform .15s,filter .2s,background .2s}
+button:hover{filter:brightness(1.12);transform:translateY(-1px)}button:active{transform:translateY(0)}button:disabled{opacity:.6;cursor:wait}
+button.secondary{background:rgba(255,255,255,.07);border-color:rgba(190,240,255,.25)}button.secondary:hover{background:rgba(255,255,255,.13)}
+#find{margin:0;padding:10px 16px;border-radius:12px;animation:pulse 2.8s ease-in-out infinite}
+.note{font-size:11.5px;color:var(--dim);margin-top:9px}
+.row{display:flex;flex-wrap:wrap;align-items:center}.row button{padding:8px 12px;font-size:12.5px}
+#searchMsg{font-size:12.5px;color:#ffe1b5;margin-top:9px;line-height:1.5}#searchMsg:empty{display:none}
+#suggestions button{display:block;width:100%;text-align:left;margin:6px 0 0;font-weight:500}
+#hint{right:16px;bottom:16px;max-width:250px;font-size:11.5px;line-height:1.6;color:var(--muted);padding:10px 14px;animation-delay:.2s}
+#toast{position:fixed;z-index:6;top:92px;left:50%;transform:translate(-50%,-8px);background:rgba(10,30,55,.85);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid rgba(142,234,255,.5);border-radius:30px;padding:10px 18px;font-size:13.5px;opacity:0;transition:.25s;pointer-events:none;max-width:calc(100vw - 32px);text-align:center}#toast.show{opacity:1;transform:translate(-50%,0)}
+#card{top:96px;right:16px;width:min(310px,calc(100vw - 32px))}#card[hidden]{display:none}
+#card .close{position:absolute;top:8px;right:8px;margin:0;padding:4px 9px;background:transparent;border:0;color:var(--muted);animation:none}
+#card .who{display:flex;gap:12px;align-items:center;margin-right:24px}#card .who b{display:block;font-size:17px;color:#fff;word-break:break-all}#card .who small{display:block;color:var(--muted);font-size:12.5px}
+.avatar{flex:none;width:50px;height:50px;border-radius:50%;display:grid;place-items:center;font:700 21px var(--head);color:#fff;border:2px solid rgba(190,250,255,.7);box-shadow:0 0 18px rgba(95,242,230,.35);background-size:cover;background-position:center}
+#card dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:13px 0 4px;font-size:12.5px}#card dt{color:var(--dim);text-transform:uppercase;letter-spacing:.1em;font-size:10.5px;align-self:center}#card dd{margin:0}
+/* Welcome overlay */
+#welcome{position:fixed;inset:0;z-index:5;display:grid;place-items:center;padding:18px;background:radial-gradient(80% 70% at 50% 40%,rgba(10,30,60,.25),rgba(3,6,18,.72));transition:opacity .5s,visibility .5s}
+#welcome.gone,.deeplink #welcome{opacity:0;visibility:hidden;pointer-events:none}
+#welcome .sheet{position:relative;width:min(860px,100%);max-height:calc(100vh - 36px);overflow:auto;padding:30px 30px 26px;text-align:center}
+#welcome .logo{font-size:clamp(30px,6vw,52px);letter-spacing:.32em;padding-left:.32em}
+#welcome h2{font:600 clamp(18px,2.6vw,26px) var(--body);margin:8px 0 6px;color:#fff}
+#welcome p.lead{max-width:600px;margin:0 auto;color:var(--muted);font-size:14.5px;line-height:1.6}
+.districts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0 20px;text-align:left}
+.district{position:relative;overflow:hidden;border-radius:16px;aspect-ratio:4/3;border:1px solid rgba(190,240,255,.25);background:linear-gradient(140deg,#123a55,#2a2560 60%,#0b1a33);box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.district img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}.district:hover img{transform:scale(1.07)}
+.district.noimg img{display:none}
+.district figcaption{position:absolute;inset:auto 0 0 0;padding:26px 12px 10px;background:linear-gradient(transparent,rgba(3,8,22,.85))}.district b{display:block;font:700 12.5px var(--head);letter-spacing:.14em}.district span{font-size:11.5px;color:var(--muted)}
+.cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.cta button{margin:0;padding:13px 24px;font-size:14.5px;border-radius:14px}.cta button:first-child{animation:pulse 2.8s ease-in-out infinite}
+.how{margin-top:16px;font-size:12px;color:var(--dim);letter-spacing:.04em}.how b{color:var(--teal);font-weight:600}
+@media(max-width:700px){
+ #brand{top:10px;left:10px;right:10px;max-width:none;padding:9px 14px}#brand .logo{font-size:18px}#brand .tag{font-size:11.5px}
+ #stats{top:66px;left:10px;right:auto;padding:5px;gap:4px}.stat{min-width:62px;padding:4px 8px}.stat b{font-size:15px}.stat small{font-size:8.5px}
+ #hint{display:none}#tools{left:10px;right:10px;bottom:10px;width:auto;padding:12px 13px;max-height:55vh}#tools .ttl{font-size:12px;margin-bottom:7px}
+ #card{top:118px;left:10px;right:10px;width:auto}
+ #welcome .sheet{padding:22px 16px 18px}.districts{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;margin:16px -16px;padding:0 16px 4px}.district{flex:0 0 72%;scroll-snap-align:center}
+ .cta button{flex:1 1 100%}
+}
+@media(max-height:560px){.districts{display:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style></head><body>
 <div id="world"></div>
-<header id="brand" class="panel"><h1>✦ NEBULA</h1><small>LIVING GALAXIES · AURELIA / SECTOR 01</small></header>
-<div id="zone">AURELIA · FIRST SETTLEMENT</div>
-<section id="stats" class="panel"><div class="stat"><b id="members">0</b><small>Residents</small></div><div class="stat"><b id="homes">0</b><small>Homes</small></div><div class="stat"><b>10K</b><small>Goal</small></div></section>
+<header id="brand" class="panel"><div class="logo">NEBULA</div><div class="tag">Your home among the stars · <span class="eyebrow">AURELIA</span></div></header>
+<section id="stats" class="panel" aria-label="AURELIA population"><div class="stat"><b id="members">0</b><small>Residents</small></div><div class="stat"><b id="homes">0</b><small>Homes</small></div><div class="stat"><b>10K</b><small>Goal</small></div></section>
 <section id="tools" class="panel">
-<label>Your NEBULA account</label>
-<input id="email" type="email" autocomplete="email" placeholder="Your email">
-<input id="password" type="password" autocomplete="current-password" placeholder="Password (min. 6 characters)" style="margin-top:7px">
-<input id="username" maxlength="28" placeholder="Your NEBULA username (for sign-up)" style="margin-top:7px">
-<button id="signup">Create account</button><button class="secondary" id="login">Sign in</button><button class="secondary" id="logout" style="display:none">Sign out</button>
-<div id="accountStatus" style="font-size:11px;color:#b9cce5;margin-top:6px">Sign in to create your home.</div>
-<hr style="border:0;border-top:1px solid #9bdff055;margin:10px 0">
-<label for="username">Your home on AURELIA</label>
-<button id="add">＋ Create my home</button><button class="secondary" id="pause">Pause time</button><button class="secondary" id="reset">Reset camera</button></section>
-<aside id="hint" class="panel">Drag: rotate camera · Wheel: zoom · Right-click: pan<br>Double-click a home: see its owner</aside><div id="toast"></div>
+<h2 class="ttl"><label for="search">Find your home</label></h2>
+<form id="searchForm" class="searchbar" autocomplete="off"><span class="at" aria-hidden="true">@</span><input id="search" maxlength="60" placeholder="your social media username" aria-label="Your social media username" spellcheck="false" autocapitalize="off" enterkeyhint="search"><button id="find" type="submit">Find</button></form>
+<div id="searchMsg" role="status" aria-live="polite"></div>
+<div id="suggestions"></div>
+<div class="note">No sign-up, no password. Explore AURELIA freely.</div>
+<div class="row"><button class="secondary" id="pause" type="button">Pause time</button><button class="secondary" id="reset" type="button">Reset camera</button><button class="secondary" id="about" type="button">About NEBULA</button></div></section>
+<section id="card" class="panel" hidden aria-live="polite">
+<button id="cardClose" class="close" type="button" aria-label="Close">✕</button>
+<div class="eyebrow" style="margin-bottom:9px">NEBULA Resident</div>
+<div class="who"><div id="cardAvatar" class="avatar" aria-hidden="true"></div><div><b id="cardUser"></b><small id="cardHouse"></small></div></div>
+<dl><dt>Planet</dt><dd id="cardPlanet"></dd><dt>District</dt><dd id="cardDistrict"></dd><dt>Joined</dt><dd id="cardJoined"></dd></dl>
+<button id="cardVisit" type="button">Visit Home</button><button id="cardCopy" class="secondary" type="button">Copy link</button>
+</section>
+<aside id="hint" class="panel">Drag to orbit · Scroll to zoom · Right-drag to pan<br>Double-click a home to meet its resident</aside><div id="toast"></div>
+<div id="welcome" role="dialog" aria-modal="true" aria-labelledby="wTitle">
+ <div class="sheet panel">
+  <div class="eyebrow">Living Galaxies · Sector 01</div>
+  <div class="logo" id="wTitle">NEBULA</div>
+  <h2>Your home among the stars</h2>
+  <p class="lead">Welcome to AURELIA, the first inhabited planet of the NEBULA galaxy. Luxury glass homes, floating islands and endless waterfalls, built one resident at a time by our community.</p>
+  <div class="districts">
+   <figure class="district" style="margin:0"><img src="/assets/aurelia-1.webp" alt="Crystal Bay: white glass villas on a turquoise lagoon" loading="lazy" decoding="async" width="800" height="600" onerror="this.parentNode.classList.add('noimg')"><figcaption><b>CRYSTAL BAY</b><span>Glass villas on turquoise water</span></figcaption></figure>
+   <figure class="district" style="margin:0"><img src="/assets/aurelia-2.webp" alt="Neo City: a neon futuristic skyline at night" loading="lazy" decoding="async" width="800" height="600" onerror="this.parentNode.classList.add('noimg')"><figcaption><b>NEO CITY</b><span>A neon metropolis that never sleeps</span></figcaption></figure>
+   <figure class="district" style="margin:0"><img src="/assets/aurelia-3.webp" alt="Sky District: glass homes on floating islands among clouds" loading="lazy" decoding="async" width="800" height="600" onerror="this.parentNode.classList.add('noimg')"><figcaption><b>SKY DISTRICT</b><span>Residences above the clouds</span></figcaption></figure>
+  </div>
+  <div class="cta"><button id="explore" type="button">Explore AURELIA</button><button id="findMine" class="secondary" type="button">Find my home</button></div>
+  <div class="how">Want a home? Comment <b>JOIN NEBULA</b> on our posts and we'll build yours.</div>
+ </div>
+</div>
+<script>(function(){var w=document.getElementById('welcome');function close(f){w.classList.add('gone');if(f)setTimeout(function(){document.getElementById('search').focus()},250)}
+document.getElementById('explore').onclick=function(){close(false)};document.getElementById('findMine').onclick=function(){close(true)};
+document.getElementById('about').onclick=function(){document.documentElement.classList.remove('deeplink');w.classList.remove('gone')};
+w.addEventListener('click',function(e){if(e.target===w)close(false)});addEventListener('keydown',function(e){if(e.key==='Escape'&&!w.classList.contains('gone'))close(false)});})();</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <script type="module">
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+import * as THREE from 'three';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from './supabase-config.js';
-import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from '/supabase-config.js';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY || SUPABASE_URL.includes('YOUR_') || SUPABASE_PUBLISHABLE_KEY.includes('YOUR_')) {
   alert('Add your Supabase Project URL and Publishable key to supabase-config.js first.');
 }
-const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-let currentSession = null;
+const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } });
 const scene=new THREE.Scene();scene.background=new THREE.Color(0x7895b5);scene.fog=new THREE.FogExp2(0x829cb9,.0034);
 const camera=new THREE.PerspectiveCamera(48,innerWidth/innerHeight,.1,1400);camera.position.set(44,34,55);
 const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;document.querySelector('#world').appendChild(renderer.domElement);
-const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.055;controls.minDistance=13;controls.maxDistance=250;controls.maxPolarAngle=Math.PI*.49;controls.target.set(0,5,0);
+const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.055;controls.minDistance=4;controls.maxDistance=250;controls.maxPolarAngle=Math.PI*.49;controls.target.set(0,5,0);
 scene.add(new THREE.HemisphereLight(0xd9f2ff,0x263047,2));
 const sun=new THREE.DirectionalLight(0xffe2bd,3);sun.position.set(-60,80,40);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);scene.add(sun);
 const fill=new THREE.PointLight(0x55cfff,100,180);fill.position.set(24,35,-25);scene.add(fill);
@@ -82,54 +154,104 @@ const MAX=10000,bodyGeo=new THREE.BoxGeometry(1.55,1.2,1.45),roofGeo=new THREE.B
 const bodies=new THREE.InstancedMesh(bodyGeo,new THREE.MeshStandardMaterial({color:0xffffff,roughness:.32,metalness:.12}),MAX),roofs=new THREE.InstancedMesh(roofGeo,new THREE.MeshStandardMaterial({color:0xffffff,roughness:.3,metalness:.2}),MAX);scene.add(bodies,roofs);bodies.castShadow=roofs.castShadow=true;
 const dummy=new THREE.Object3D(),colors=[0xe8f0f0,0xd8e6ef,0xe7d5b8,0xb8d8d7,0xd5c8ed,0xc7dfc6,0xe4c5c0,0xb8c9e6],members=[];
 function homePosition(n){const district=Math.floor(n/1667),local=n%1667;const cols=42,spacing=.85,row=Math.floor(local/cols),col=local%cols;const angle=district*Math.PI/3,r=13.8;let cx=Math.cos(angle)*r,cz=Math.sin(angle)*r*.78;return{x:cx-(cols-1)*spacing/2+col*spacing,y:3.5,z:cz-17+row*spacing}}
-function stats(){document.querySelector('#members').textContent=members.length.toLocaleString('tr-TR');document.querySelector('#homes').textContent=members.length.toLocaleString('tr-TR')}
-function addMember(name,p,houseId=null){if(members.length>=MAX)return false;let i=members.length;dummy.position.set(p.x,p.y+.65,p.z);dummy.rotation.y=(i%4)*Math.PI/2;dummy.updateMatrix();bodies.setMatrixAt(i,dummy.matrix);bodies.setColorAt(i,new THREE.Color(colors[i%colors.length]));dummy.position.y=p.y+1.34;dummy.scale.set(1,1,1);dummy.updateMatrix();roofs.setMatrixAt(i,dummy.matrix);roofs.setColorAt(i,new THREE.Color([0x263b59,0x365b70,0x8a7257,0x596b8d][i%4]));members.push({name,position:p,houseId});bodies.count=roofs.count=members.length;bodies.instanceMatrix.needsUpdate=roofs.instanceMatrix.needsUpdate=true;bodies.instanceColor.needsUpdate=roofs.instanceColor.needsUpdate=true;stats();return true}
-function toast(s){let e=document.querySelector('#toast');e.textContent=s;e.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>e.classList.remove('show'),2300)}
-const emailInput=document.querySelector('#email'),passwordInput=document.querySelector('#password'),usernameInput=document.querySelector('#username');
-const accountStatus=document.querySelector('#accountStatus');
-function setAccountUI(session){currentSession=session;document.querySelector('#logout').style.display=session?'inline-block':'none';document.querySelector('#signup').style.display=session?'none':'inline-block';document.querySelector('#login').style.display=session?'none':'inline-block';accountStatus.textContent=session?'Signed in: '+(session.user.email||'NEBULA sakini'):'Sign in to create your home.';}
+const nf=new Intl.NumberFormat('en-US');let residentCount=0,homeCount=0;
+function stats(){document.querySelector('#members').textContent=nf.format(residentCount);document.querySelector('#homes').textContent=nf.format(homeCount)}
+const byHouseId=new Map();
+function addMember(name,p,houseId=null,ownerId=null){if(members.length>=MAX)return false;let i=members.length;dummy.position.set(p.x,p.y+.65,p.z);dummy.rotation.y=(i%4)*Math.PI/2;dummy.updateMatrix();bodies.setMatrixAt(i,dummy.matrix);bodies.setColorAt(i,new THREE.Color(colors[i%colors.length]));dummy.position.y=p.y+1.34;dummy.scale.set(1,1,1);dummy.updateMatrix();roofs.setMatrixAt(i,dummy.matrix);roofs.setColorAt(i,new THREE.Color([0x263b59,0x365b70,0x8a7257,0x596b8d][i%4]));members.push({name,position:p,houseId,ownerId});if(houseId)byHouseId.set(houseId,i);bodies.count=roofs.count=members.length;bodies.instanceMatrix.needsUpdate=roofs.instanceMatrix.needsUpdate=true;bodies.instanceColor.needsUpdate=roofs.instanceColor.needsUpdate=true;return true}
+function toast(s){let e=document.querySelector('#toast');e.textContent=s;e.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>e.classList.remove('show'),2800)}
+// ---- Visitor mode: data access (public read only, no auth) ----
+const HOUSE_FIELDS='id,owner_id,house_name,model,color,position_x,position_y,position_z,created_at,profiles!inner(username,created_at),districts(name,planets(name))';
+const UUID_RE=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const GROUND_Y=3.5;// AURELIA surface; homes stored below it (e.g. y=0) are lifted so they stay visible.
+const posOf=row=>({x:Number(row.position_x)||0,y:Math.max(Number(row.position_y)||0,GROUND_Y),z:Number(row.position_z)||0});
 async function loadHouses(){
   const {data,error}=await supabase.from('houses').select('id,owner_id,house_name,position_x,position_y,position_z,created_at,profiles(username)').order('created_at',{ascending:true}).limit(MAX);
   if(error){console.error(error);toast('Could not load homes: '+error.message);return;}
-  members.length=0;bodies.count=roofs.count=0;
-  (data||[]).forEach(row=>addMember(row.profiles?.username||row.house_name,{x:row.position_x,y:row.position_y,z:row.position_z},row.id));
+  members.length=0;byHouseId.clear();bodies.count=roofs.count=0;
+  (data||[]).forEach(row=>addMember(row.profiles?.username||row.house_name,posOf(row),row.id,row.owner_id));
+  residentCount=new Set(members.map(m=>m.ownerId).filter(Boolean)).size;homeCount=members.length;
+  // Exact total from the database (the scene renders at most MAX homes).
+  const {count,error:cErr}=await supabase.from('houses').select('id',{count:'exact'}).limit(1);
+  if(!cErr&&typeof count==='number')homeCount=count;
   stats();
 }
-document.querySelector('#signup').onclick=async()=>{
-  const email=emailInput.value.trim(),password=passwordInput.value,name=usernameInput.value.trim().replace(/^@/,'').toLowerCase();
-  if(!email||!password||!name)return toast('Please fill in email, password and username.');
-  if(password.length<6)return toast('Password must be at least 6 characters.');
-  if(!/^[a-z0-9_.-]{3,28}$/.test(name))return toast('Username must be 3-28 characters: letters, numbers, _, . or -.');
-  const {data,error}=await supabase.auth.signUp({email,password,options:{data:{username:name}}});
-  if(error)return toast('Sign-up error: '+error.message);
-  if(data.session){setAccountUI(data.session);await loadHouses();toast('Your NEBULA account has been created!');}
-  else toast('Almost there! Confirm your email, then sign in.');
-};
-document.querySelector('#login').onclick=async()=>{
-  const {data,error}=await supabase.auth.signInWithPassword({email:emailInput.value.trim(),password:passwordInput.value});
-  if(error)return toast('Sign-in error: '+error.message);
-  setAccountUI(data.session);await loadHouses();toast('Welcome to NEBULA!');
-};
-document.querySelector('#logout').onclick=async()=>{const {error}=await supabase.auth.signOut();if(error)return toast(error.message);setAccountUI(null);toast('Signed out.');};
-supabase.auth.onAuthStateChange((_event,session)=>{setAccountUI(session);if(session)queueMicrotask(()=>loadHouses());});
-const {data:{session:initialSession}}=await supabase.auth.getSession();setAccountUI(initialSession);await loadHouses();
-document.querySelector('#add').onclick=async()=>{
-  if(!currentSession)return toast('Please sign in to your NEBULA account first.');
-  const {data:profile,error:profileError}=await supabase.from('profiles').select('username').eq('id',currentSession.user.id).single();
-  if(profileError)return toast('Profile not found: '+profileError.message);
-  const {data:existing,error:existingError}=await supabase.from('houses').select('id').eq('owner_id',currentSession.user.id).limit(1);
-  if(existingError)return toast('Check failed: '+existingError.message);
-  if(existing?.length)return toast('You already have a NEBULA home.');
-  if(members.length>=MAX)return toast('The 10,000-resident capacity has been reached.');
-  const {data:districts,error:districtError}=await supabase.from('districts').select('id').limit(1);
-  if(districtError||!districts?.length)return toast('AURELIA district not found.');
-  const p=homePosition(members.length);
-  const {data:house,error}=await supabase.from('houses').insert({owner_id:currentSession.user.id,district_id:districts[0].id,house_name:profile.username+' House',model:'luxury_white',color:'#FFFFFF',position_x:p.x,position_y:p.y,position_z:p.z}).select('id').single();
-  if(error)return toast('Could not save your home: '+error.message);
-  addMember(profile.username,p,house.id);usernameInput.value='';toast('@'+profile.username+'\u2019s home has been added to the shared AURELIA world!');
-};
-const ray=new THREE.Raycaster(),mouse=new THREE.Vector2();renderer.domElement.addEventListener('dblclick',e=>{mouse.x=e.clientX/innerWidth*2-1;mouse.y=-(e.clientY/innerHeight)*2+1;ray.setFromCamera(mouse,camera);let hit=ray.intersectObject(bodies)[0];if(hit&&members[hit.instanceId])toast('NEBULA resident: @'+members[hit.instanceId].name)});
-let running=true;document.querySelector('#pause').onclick=()=>{running=!running;toast(running?'Day/night cycle resumed.':'Time paused.')};document.querySelector('#reset').onclick=()=>{camera.position.set(44,34,55);controls.target.set(0,5,0);controls.update()};
-const clock=new THREE.Clock();function animate(){requestAnimationFrame(animate);let t=clock.getElapsedTime(),day=running?(Math.sin(t*.025)+1)/2:.55;let night=new THREE.Color(0x080d26),daySky=new THREE.Color(0x91b8d0),sky=night.clone().lerp(daySky,day);scene.background.copy(sky);scene.fog.color.copy(sky);sun.intensity=.3+day*3;sun.color.set(0x849fe2).lerp(new THREE.Color(0xffe2bc),day);fill.intensity=35+day*70;stars.material.opacity=.95*(1-day*.88);orb.rotation.y=t*.012;obelisk.rotation.y=t*.18;obelisk.position.y=7+Math.sin(t)*.25;controls.update();renderer.render(scene,camera)}animate();
+async function fetchHouse(id){
+  const {data,error}=await supabase.from('houses').select(HOUSE_FIELDS).eq('id',id).maybeSingle();
+  if(error){console.error(error);return null}return data;
+}
+function normalizeUsername(raw){return String(raw||'').trim().replace(/^@+/,'').trim().toLowerCase()}
+async function findExact(name){
+  const {data,error}=await supabase.from('houses').select(HOUSE_FIELDS).eq('profiles.username',name).order('created_at',{ascending:true}).limit(1);
+  if(error)throw error;return data?.[0]||null;
+}
+async function findPartial(name){
+  // Escape LIKE wildcards and drop characters PostgREST treats specially.
+  const safe=name.replace(/[*,()"\\]/g,'').replace(/[%_]/g,m=>'\\'+m);
+  if(!safe)return [];
+  const {data,error}=await supabase.from('houses').select(HOUSE_FIELDS).ilike('profiles.username','%'+safe+'%').order('created_at',{ascending:true}).limit(5);
+  if(error)throw error;return data||[];
+}
+// ---- Camera flight + selected-home marker ----
+const marker=new THREE.Group();marker.visible=false;scene.add(marker);
+{const beam=new THREE.Mesh(new THREE.CylinderGeometry(.06,.06,7,8),new THREE.MeshBasicMaterial({color:0x8eeaff,transparent:true,opacity:.55}));beam.position.y=5.6;marker.add(beam);const halo=new THREE.Mesh(new THREE.TorusGeometry(1.25,.06,8,40),neon);halo.rotation.x=Math.PI/2;halo.position.y=.15;marker.add(halo);}
+let fly=null;
+function viewFor(p){const target=new THREE.Vector3(p.x,p.y+(innerWidth<700?2.4:.9),p.z);// on phones aim a bit higher so the home sits below the resident card
+const off=new THREE.Vector3(p.x,0,p.z).normalize();if(!isFinite(off.x)||off.lengthSq()<.01)off.set(0,0,1);off.multiplyScalar(6.5);off.y=4;return{target,pos:target.clone().add(off)}}
+function flyTo(p,instant=false){const v=viewFor(p);marker.position.set(p.x,p.y,p.z);marker.visible=true;
+  if(instant){fly=null;camera.position.copy(v.pos);controls.target.copy(v.target);controls.update();return}
+  fly={p0:camera.position.clone(),t0:controls.target.clone(),p1:v.pos,t1:v.target,start:performance.now(),dur:1700};}
+function stepFly(){if(!fly)return;let k=Math.min(1,(performance.now()-fly.start)/fly.dur);k=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;
+  const lift=Math.sin(k*Math.PI)*Math.min(18,fly.p0.distanceTo(fly.p1)*.25);
+  camera.position.lerpVectors(fly.p0,fly.p1,k);camera.position.y+=lift;controls.target.lerpVectors(fly.t0,fly.t1,k);if(k>=1)fly=null}
+controls.addEventListener('start',()=>{fly=null});
+// ---- Resident card ----
+const $=s=>document.querySelector(s);
+const card=$('#card');let selected=null;
+const houseUrl=id=>location.origin+'/house/'+id;
+const fmtDate=d=>{const t=new Date(d);return isNaN(t)?'—':t.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})};
+function avatarFor(name){const el=$('#cardAvatar');el.textContent=(name.match(/[\p{L}\p{N}]/u)||['?'])[0].toUpperCase();let h=0;for(const c of name)h=(h*31+c.codePointAt(0))%360;el.style.backgroundImage='';el.style.backgroundColor='hsl('+h+' 45% 38%)'}
+function showCard(row){selected=row;const name=row.profiles?.username||'resident';
+  avatarFor(name);$('#cardUser').textContent='@'+name;$('#cardHouse').textContent=row.house_name||'NEBULA Home';
+  $('#cardPlanet').textContent=row.districts?.planets?.name||'AURELIA';$('#cardDistrict').textContent=row.districts?.name||'—';
+  $('#cardJoined').textContent=fmtDate(row.profiles?.created_at||row.created_at);card.hidden=false}
+function closeCard(){card.hidden=true;selected=null;marker.visible=false}
+function setPath(path,mode){if(location.pathname===path)return;try{history[mode==='replace'?'replaceState':'pushState']({},'',path)}catch(e){console.warn(e)}}
+function ensureRendered(row){if(!byHouseId.has(row.id)&&addMember(row.profiles?.username||row.house_name,posOf(row),row.id,row.owner_id)){homeCount=Math.max(homeCount,members.length);stats()}}
+function selectHouse(row,{push=true,instant=false}={}){ensureRendered(row);showCard(row);flyTo(posOf(row),instant);if(push)setPath('/house/'+row.id,'push')}
+$('#cardClose').onclick=()=>{closeCard();setPath('/','push')};
+$('#cardVisit').onclick=()=>{if(selected)flyTo(posOf(selected))};
+$('#cardCopy').onclick=async()=>{if(!selected)return;const url=houseUrl(selected.id);
+  try{await navigator.clipboard.writeText(url);toast('Link copied: '+url)}catch(e){const t=document.createElement('textarea');t.value=url;document.body.appendChild(t);t.select();let ok=false;try{ok=document.execCommand('copy')}catch(_){}t.remove();toast(ok?'Link copied: '+url:url)}};
+// ---- Find your home ----
+const searchMsg=$('#searchMsg'),sugBox=$('#suggestions');
+function clearSearchUI(){searchMsg.textContent='';sugBox.replaceChildren()}
+$('#searchForm').addEventListener('submit',async e=>{e.preventDefault();clearSearchUI();
+  const name=normalizeUsername($('#search').value);if(!name){searchMsg.textContent='Type your social media username.';return}
+  const btn=$('#find');btn.disabled=true;searchMsg.textContent='Searching AURELIA…';
+  try{
+    const exact=await findExact(name);
+    if(exact){searchMsg.textContent='';selectHouse(exact);return}
+    const partial=await findPartial(name);
+    if(!partial.length){searchMsg.textContent='Resident not found. No home for @'+name+' yet. Comment JOIN NEBULA on our posts to get one!';return}
+    searchMsg.textContent='Resident not found for @'+name+'. Did you mean:';
+    partial.forEach(row=>{const b=document.createElement('button');b.type='button';b.className='secondary';b.textContent='@'+(row.profiles?.username||'?')+' · '+(row.districts?.name||'');b.onclick=()=>{clearSearchUI();$('#search').value=row.profiles?.username||'';selectHouse(row)};sugBox.appendChild(b)});
+  }catch(err){console.error(err);searchMsg.textContent='Search failed. Please try again.'}
+  finally{btn.disabled=false}
+});
+// ---- Permanent links: /house/<uuid> ----
+async function routeFromPath({instant=false}={}){
+  const m=location.pathname.match(/^\/house\/([^/]+)\/?$/);
+  if(!m){closeCard();return}
+  const id=decodeURIComponent(m[1]);
+  const row=UUID_RE.test(id)?await fetchHouse(id):null;
+  if(!row){toast('This home could not be found');closeCard();setPath('/','replace');return}
+  selectHouse(row,{push:false,instant});
+}
+addEventListener('popstate',()=>routeFromPath());
+await loadHouses();
+await routeFromPath({instant:true});
+const ray=new THREE.Raycaster(),mouse=new THREE.Vector2();renderer.domElement.addEventListener('dblclick',async e=>{mouse.x=e.clientX/innerWidth*2-1;mouse.y=-(e.clientY/innerHeight)*2+1;ray.setFromCamera(mouse,camera);let hit=ray.intersectObject(bodies)[0];const m=hit&&members[hit.instanceId];if(!m)return;toast('NEBULA resident: @'+m.name);if(!m.houseId)return;const row=await fetchHouse(m.houseId);if(row)selectHouse(row);});
+let running=true;document.querySelector('#pause').onclick=()=>{running=!running;toast(running?'Day/night cycle resumed.':'Time paused.')};document.querySelector('#reset').onclick=()=>{fly=null;camera.position.set(44,34,55);controls.target.set(0,5,0);controls.update()};
+const clock=new THREE.Clock();function animate(){requestAnimationFrame(animate);let t=clock.getElapsedTime(),day=running?(Math.sin(t*.025)+1)/2:.55;let night=new THREE.Color(0x080d26),daySky=new THREE.Color(0x91b8d0),sky=night.clone().lerp(daySky,day);scene.background.copy(sky);scene.fog.color.copy(sky);sun.intensity=.3+day*3;sun.color.set(0x849fe2).lerp(new THREE.Color(0xffe2bc),day);fill.intensity=35+day*70;stars.material.opacity=.95*(1-day*.88);orb.rotation.y=t*.012;obelisk.rotation.y=t*.18;obelisk.position.y=7+Math.sin(t)*.25;marker.rotation.y=t*.8;stepFly();controls.update();renderer.render(scene,camera)}animate();
 addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
 </script></body></html>

@@ -1,52 +1,29 @@
-# NEBULA — AURELIA + Supabase bağlantılı başlangıç sürümü
+# NEBULA — AURELIA (ziyaretçi modu)
 
-Bu sürüm mevcut Three.js AURELIA prototipini Supabase Auth ve PostgreSQL tablolarına bağlar.
+Üyeliksiz, sosyal medya üzerinden katılımlı yaşayan bir 3D galaksi. Three.js ile AURELIA dünyası + Supabase (yalnızca herkese açık okuma).
 
 ## Dosyalar
-- `index.html`: Three.js dünyası, kayıt/giriş ve ev oluşturma arayüzü.
-- `supabase-config.js`: Supabase Project URL ve Publishable key.
-- `netlify.toml`: Netlify yayın ayarı.
+- `index.html`: Three.js dünyası, karşılama ekranı, "Find your home" araması, sakin kartı.
+- `supabase-config.js`: Supabase Project URL ve Publishable key (asla secret/service_role koyma).
+- `netlify.toml`: Yayın ayarı + `/house/*` → `/index.html` yönlendirmesi (status 200).
+- `assets/aurelia-1..3.webp`: Karşılama ekranındaki bölge görselleri (Crystal Bay, Neo City, Sky District).
 
-## 1. Supabase bağlantısını ayarla
-1. `supabase-config.js` dosyasını bir metin editörüyle aç.
-2. `YOUR_SUPABASE_PROJECT_URL` yerine Supabase Project URL değerini yaz.
-3. `YOUR_SUPABASE_PUBLISHABLE_KEY` yerine Publishable key değerini yaz.
-4. Tırnakları silme. Secret veya service_role anahtarını kesinlikle kullanma.
+## Ziyaretçi modu
+- E-posta, şifre veya giriş yok. Herkes siteyi açıp galaksiyi özgürce gezebilir.
+- Evler sosyal medya yorumlarından (ör. "JOIN NEBULA") ileride bot tarafından sunucu tarafında oluşturulacak; sitede ev oluşturma düğmesi yoktur.
+- İstatistikler gerçek veriden gelir: Residents = evi olan farklı kişi sayısı, Homes = ev sayısı.
 
-Örnek biçim (temsili değerler):
-```js
-export const SUPABASE_URL = 'https://PROJECT-REF.supabase.co';
-export const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_...';
-```
+## Find your home (arama)
+- Kullanıcı sosyal medya kullanıcı adını yazar (başındaki `@` ve boşluklar silinir, büyük/küçük harf fark etmez).
+- Tam eşleşme varsa kamera eve uçar ve sakin kartı açılır (avatar, kullanıcı adı, ev adı, gezegen, bölge, katılım tarihi, Visit Home, Copy link).
+- Tam eşleşme yoksa en fazla 5 benzer kullanıcı adı önerilir; hiç yoksa "Resident not found" mesajı gösterilir.
 
-## 2. Supabase SQL kurulumu
-Bu uygulama önceki NEBULA SQL kurulumundaki şu tabloları bekler:
-- `public.profiles`
-- `public.planets`
-- `public.districts`
-- `public.houses`
+## Kalıcı ev bağlantıları
+- Biçim: `https://nebula-yasayan-galaksiler.netlify.app/house/<EV-UUID>`
+- Bağlantı açılınca karşılama ekranı atlanır, kamera doğrudan evin önünde başlar ve kart açılır.
+- Aramadan veya bir eve çift tıklayınca adres çubuğu `/house/<id>` olur; geri/ileri tuşları çalışır.
+- Geçersiz veya bulunamayan id → "This home could not be found" bildirimi ve normal görünüm.
+- Sayfa `/house/...` altında da sunulduğu için yerel dosyalar mutlak yolla yüklenir (`/supabase-config.js`, `/assets/...`).
 
-Ayrıca `auth.users` tablosuna yeni kullanıcı eklenince `profiles` satırı oluşturan `handle_new_nebula_user` trigger'ı kurulmuş olmalıdır. Uygulama bu tabloları yeniden oluşturmaz.
-
-## 3. Çalıştırma
-`index.html` dosyasını doğrudan dosya yöneticisinden açmak yerine yerel bir web sunucusu kullan:
-- VS Code + Live Server, veya
-- `python -m http.server 8000`
-
-Sonra `http://localhost:8000` adresini aç.
-
-## 4. Test akışı
-1. E-posta, şifre ve NEBULA kullanıcı adı girerek hesap oluştur.
-2. Supabase Auth e-posta doğrulaması açıksa gelen e-postadaki bağlantıyı onayla.
-3. Uygulamaya dön ve giriş yap.
-4. `Evimi oluştur` düğmesine bas.
-5. Supabase Table Editor'da `profiles` ve `houses` tablolarında yeni kayıtları kontrol et.
-6. Uygulamayı başka bir tarayıcıda açtığında aynı evlerin görünmesi gerekir.
-
-## Güvenlik ve prototip sınırları
-- Publishable key istemci tarafında kullanılmak içindir; veritabanı güvenliği RLS politikalarına dayanır.
-- Secret/service_role anahtarını hiçbir zaman tarayıcıya, GitHub'a veya bu dosyaya koyma.
-- Bu başlangıç sürümü kullanıcı başına tek ev oluşturmayı sınırlar.
-- Ev koordinatları istemcide mevcut ev sayısına göre atanır. Eşzamanlı çoklu kayıtlar için çakışmasız sunucu tarafı koordinat ataması sonraki aşamada yapılmalıdır.
-- Instagram doğrulaması, Grok otomasyonu, arama/ziyaret bağlantıları ve 10.000 ev için tam LOD/alan optimizasyonu henüz dahil değildir.
-- Gerçek kullanıcıları davet etmeden önce RLS politikaları, e-posta doğrulaması, kullanıcı adı benzersizliği ve sunucu tarafı ev oluşturma akışı ayrıca test edilmelidir.
+## Yerelde çalıştırma
+`/house/*` yönlendirmesini taklit eden basit bir sunucu gerekir, örn. `npx netlify dev` (netlify.toml kurallarını uygular).
